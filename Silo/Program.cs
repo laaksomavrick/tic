@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Grains;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Configuration;
@@ -12,7 +13,11 @@ static async Task<int> RunMainAsync()
 {
     try
     {
-        var host = await StartSilo();
+        var builder = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", false, true);
+        var config = builder.Build();
+        
+        var host = await StartSilo(config);
         Console.WriteLine("\n\n Press Enter to terminate...\n\n");
         Console.ReadLine();
 
@@ -27,8 +32,13 @@ static async Task<int> RunMainAsync()
     }
 }
 
-static async Task<ISiloHost> StartSilo()
+static async Task<ISiloHost> StartSilo(IConfigurationRoot config)
 {
+    var dynamoConfig = config.GetSection("DynamoDB");
+    var accessKey = dynamoConfig.GetValue<string>("AccessKey");
+    var secretKey = dynamoConfig.GetValue<string>("SecretKey");
+    var service = dynamoConfig.GetValue<string>("Service");
+    
     // define the cluster configuration
     var builder = new SiloHostBuilder()
         .UseLocalhostClustering()
@@ -36,6 +46,13 @@ static async Task<ISiloHost> StartSilo()
         {
             options.ClusterId = "dev";
             options.ServiceId = "Tic";
+        })
+        .AddDynamoDBGrainStorage(name: "ticStorage", configureOptions: options =>
+        {
+            options.UseJson = true;
+            options.AccessKey = accessKey;
+            options.SecretKey = secretKey;
+            options.Service = service;
         })
         .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(UserManagerGrain).Assembly).WithReferences())
         .ConfigureLogging(logging => logging.AddConsole());

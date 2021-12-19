@@ -18,9 +18,17 @@ public class UserController : ApiController
 
     // Retrieve a list of users
     [HttpGet]
-    public async Task<List<GetUserVm>> GetAll()
+    public async Task<IEnumerable<GetUserVm>> GetAll()
     {
-        return new List<GetUserVm>() { };
+        var grain = _client.GetUserManagerSingleton();
+        var users = await grain.OnGetAllUsers();
+        var userVms = users.Select(x => new GetUserVm()
+        {
+            Id = x.Id,
+            Username = x.Username
+        });
+
+        return userVms;
     }
     
     // Create a user
@@ -34,7 +42,7 @@ public class UserController : ApiController
         return new CreateUserVm()
         {
             Id = user.Id,
-            Username = user.Name
+            Username = user.Username
         };
     }
 }

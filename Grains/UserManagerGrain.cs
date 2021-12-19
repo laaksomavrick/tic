@@ -1,30 +1,40 @@
 using Domain;
 using GrainInterfaces;
+using Orleans.Runtime;
 
 namespace Grains;
 
 public class UserManagerGrain : Orleans.Grain, IUserManager
 {
-    private readonly List<User> _users = new();
     
-    public Task<User> OnCreateUser(string name)
+    private readonly IPersistentState<List<User>> _users;
+
+    public UserManagerGrain(
+        [PersistentState("users", "ticStorage")]
+        IPersistentState<List<User>> users)
+    {
+        _users = users;
+    }
+
+    public async Task<User> OnCreateUser(string name)
     {
         var guid = Guid.NewGuid();
         var user = new User()
         {
             Id = guid,
-            Name = name
+            Username = name
         };
         
-        _users.Add(user);
+        _users.State.Add(user);
         
-        // TODO: write state
+        await _users.WriteStateAsync();
 
-        return Task.FromResult(user);
+        return await Task.FromResult(user);
     }
 
     public Task<List<User>> OnGetAllUsers()
     {
-        return Task.FromResult(_users);
+        var users = _users.State;
+        return Task.FromResult(users);
     }
 }
