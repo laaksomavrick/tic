@@ -3,22 +3,22 @@ using Orleans.Configuration;
 
 namespace WebApi.Orleans;
 
-public interface IOrleansClient
+public interface IOrleansClusterClientFactory
 {
-    public Task<IClusterClient> GetClient();
+    public IClusterClient GetClient();
 }
 
-public class OrleansClient : IOrleansClient
+public class OrleansClusterClientFactory : IOrleansClusterClientFactory
 {
-    private IClusterClient? _client;
+    private IClusterClient _client;
 
-    public async Task<IClusterClient> GetClient()
+    public OrleansClusterClientFactory()
     {
-        if (_client == null)
-        {
-            await ConnectClient();
-        }
+        ConnectClient().Wait();
+    }
 
+    public IClusterClient GetClient()
+    {
         return _client;
     }
     

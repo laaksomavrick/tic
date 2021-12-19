@@ -3,9 +3,9 @@ using GrainInterfaces;
 
 namespace Grains;
 
-public class UserGrain : Orleans.Grain, IUser
+public class UserManagerGrain : Orleans.Grain, IUserManager
 {
-    private readonly List<User> _users = new List<User>();
+    private readonly List<User> _users = new();
     
     public Task<User> OnCreateUser(string name)
     {

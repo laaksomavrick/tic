@@ -37,7 +37,7 @@ static async Task<ISiloHost> StartSilo()
             options.ClusterId = "dev";
             options.ServiceId = "Tic";
         })
-        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(UserGrain).Assembly).WithReferences())
+        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(UserManagerGrain).Assembly).WithReferences())
         .ConfigureLogging(logging => logging.AddConsole());
 
     var host = builder.Build();

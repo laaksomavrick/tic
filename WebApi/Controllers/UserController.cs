@@ -1,5 +1,6 @@
 using GrainInterfaces;
 using Microsoft.AspNetCore.Mvc;
+using Orleans;
 using WebApi.DomainTransferObjects;
 using WebApi.Orleans;
 using WebApi.ViewModels;
@@ -8,10 +9,9 @@ namespace WebApi.Controllers;
 
 public class UserController : ApiController
 {
+    private readonly IClusterClient _client;
 
-    private readonly IOrleansClient _client;
-
-    public UserController(IOrleansClient client)
+    public UserController(IClusterClient client)
     {
         _client = client;
     }
@@ -27,11 +27,8 @@ public class UserController : ApiController
     [HttpPost]
     public async Task<CreateUserVm> Create([FromBody] CreateUserDto createUserDto)
     {
-        var username = createUserDto.Username; 
-        var clusterClient = await _client.GetClient();
-        // TODO: better constant than 0
-        // guid grains can map to entities e.g. roomcreategrain (singleton ) and roomgrain (representing each entity)
-        var grain = clusterClient.GetGrain<IUser>(0);
+        var username = createUserDto.Username;
+        var grain = _client.GetUserManagerSingleton();
         var user = await grain.OnCreateUser(username);
 
         return new CreateUserVm()

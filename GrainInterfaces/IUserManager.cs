@@ -2,7 +2,7 @@ using Domain;
 
 namespace GrainInterfaces;
 
-public interface IUser : Orleans.IGrainWithIntegerKey
+public interface IUserManager : Orleans.IGrainWithGuidKey
 {
    Task<User> OnCreateUser(string name);
    
