@@ -7,7 +7,6 @@ public static class ClusterClientExtensions
 {
     public static IUserManager GetUserManagerSingleton(this IClusterClient client)
     {
-         return client.GetGrain<IUserManager>(Guid.Empty);
+        return client.GetGrain<IUserManager>(Guid.Empty);
     }
-    
 }

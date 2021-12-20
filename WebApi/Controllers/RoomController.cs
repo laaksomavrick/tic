@@ -9,7 +9,7 @@ public class RoomController : ApiController
     [HttpPost]
     public async Task<GetRoomVm> Create([FromBody] CreateRoomDto createRoomDto)
     {
-       return new GetRoomVm();
+        return new GetRoomVm();
     }
 
     [HttpGet]
@@ -17,13 +17,13 @@ public class RoomController : ApiController
     {
         return new List<GetRoomVm>();
     }
-    
+
     [HttpGet("{roomId}/messages")]
     public async Task<List<GetMessageVm>> GetAllRoomMessages(int roomId)
     {
         return new List<GetMessageVm>();
     }
-    
+
     [HttpGet("{roomId}/users")]
     public async Task<List<GetUserVm>> GetAllRoomUsers(int roomId)
     {

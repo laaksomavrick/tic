@@ -6,9 +6,9 @@ namespace WebApi.Controllers;
 
 public class MessageController : ApiController
 {
-   [HttpPost]
-   public async Task<CreateMessageVm> Create([FromBody] CreateMessageDto createMessageDto)
-   {
-       return new CreateMessageVm();
-   }
+    [HttpPost]
+    public async Task<CreateMessageVm> Create([FromBody] CreateMessageDto createMessageDto)
+    {
+        return new CreateMessageVm();
+    }
 }

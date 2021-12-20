@@ -11,7 +11,7 @@ namespace Grains.Test;
 public class UserManagerGrainTests
 {
     private TestCluster _cluster;
-    
+
     [SetUp]
     public void Setup()
     {
@@ -21,7 +21,7 @@ public class UserManagerGrainTests
     [Test]
     public async Task ItCanCreateUsers()
     {
-         var grain = _cluster.GrainFactory.GetGrain<IUserManager>(Guid.Empty);
+        var grain = _cluster.GrainFactory.GetGrain<IUserManager>(Guid.Empty);
         var firstUsername = "firstUsername";
         var secondUsername = "secondUsername";
 
@@ -32,11 +32,11 @@ public class UserManagerGrainTests
         secondUser.Username.Should().Be(secondUsername);
         firstUser.Id.Should().NotBe(secondUser.Id);
     }
-    
+
     [Test]
     public async Task ItCanRetrieveUsers()
     {
-         var grain = _cluster.GrainFactory.GetGrain<IUserManager>(Guid.Empty);
+        var grain = _cluster.GrainFactory.GetGrain<IUserManager>(Guid.Empty);
         var firstUsername = "firstUsername";
         var secondUsername = "secondUsername";
 

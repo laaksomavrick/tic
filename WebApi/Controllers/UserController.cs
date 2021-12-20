@@ -1,4 +1,3 @@
-using GrainInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Orleans;
 using WebApi.DomainTransferObjects;
@@ -22,7 +21,7 @@ public class UserController : ApiController
     {
         var grain = _client.GetUserManagerSingleton();
         var users = await grain.OnGetAllUsers();
-        var userVms = users.Select(x => new GetUserVm()
+        var userVms = users.Select(x => new GetUserVm
         {
             Id = x.Id,
             Username = x.Username
@@ -30,7 +29,7 @@ public class UserController : ApiController
 
         return userVms;
     }
-    
+
     // Create a user
     [HttpPost]
     public async Task<CreateUserVm> Create([FromBody] CreateUserDto createUserDto)
@@ -39,7 +38,7 @@ public class UserController : ApiController
         var grain = _client.GetUserManagerSingleton();
         var user = await grain.OnCreateUser(username);
 
-        return new CreateUserVm()
+        return new CreateUserVm
         {
             Id = user.Id,
             Username = user.Username

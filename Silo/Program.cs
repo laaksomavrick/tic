@@ -16,7 +16,7 @@ static async Task<int> RunMainAsync()
         var builder = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", false, true);
         var config = builder.Build();
-        
+
         var host = await StartSilo(config);
         Console.WriteLine("\n\n Press Enter to terminate...\n\n");
         Console.ReadLine();
@@ -38,7 +38,7 @@ static async Task<ISiloHost> StartSilo(IConfigurationRoot config)
     var accessKey = dynamoConfig.GetValue<string>("AccessKey");
     var secretKey = dynamoConfig.GetValue<string>("SecretKey");
     var service = dynamoConfig.GetValue<string>("Service");
-    
+
     // define the cluster configuration
     var builder = new SiloHostBuilder()
         .UseLocalhostClustering()
@@ -47,14 +47,15 @@ static async Task<ISiloHost> StartSilo(IConfigurationRoot config)
             options.ClusterId = "dev";
             options.ServiceId = "Tic";
         })
-        .AddDynamoDBGrainStorage(name: "ticStorage", configureOptions: options =>
+        .AddDynamoDBGrainStorage("ticStorage", options =>
         {
             options.UseJson = true;
             options.AccessKey = accessKey;
             options.SecretKey = secretKey;
             options.Service = service;
         })
-        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(UserManagerGrain).Assembly).WithReferences())
+        .ConfigureApplicationParts(
+            parts => parts.AddApplicationPart(typeof(UserManagerGrain).Assembly).WithReferences())
         .ConfigureLogging(logging => logging.AddConsole());
 
     var host = builder.Build();

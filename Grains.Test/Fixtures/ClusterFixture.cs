@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Orleans.Hosting;
 using Orleans.TestingHost;
 
@@ -7,7 +6,6 @@ namespace Grains.Test.Fixtures;
 
 public class ClusterFixture : IDisposable
 {
-    public TestCluster Cluster { get; private set; } 
     public ClusterFixture()
     {
         var builder = new TestClusterBuilder()
@@ -15,6 +13,8 @@ public class ClusterFixture : IDisposable
         Cluster = builder.Build();
         Cluster.Deploy();
     }
+
+    public TestCluster Cluster { get; }
 
     public void Dispose()
     {

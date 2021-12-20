@@ -1,5 +1,5 @@
 namespace WebApi.ViewModels;
 
-public class CreateMessageVm : GetMessageVm 
+public class CreateMessageVm : GetMessageVm
 {
 }

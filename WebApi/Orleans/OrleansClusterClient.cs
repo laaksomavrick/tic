@@ -21,7 +21,7 @@ public class OrleansClusterClientFactory : IOrleansClusterClientFactory
     {
         return _client;
     }
-    
+
     private async Task<IClusterClient> ConnectClient()
     {
         _client = new ClientBuilder()
@@ -37,5 +37,5 @@ public class OrleansClusterClientFactory : IOrleansClusterClientFactory
         await _client.Connect();
         Console.WriteLine("Client successfully connected to silo host \n");
         return _client;
-    } 
+    }
 }
