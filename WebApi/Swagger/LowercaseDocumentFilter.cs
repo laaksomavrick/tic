@@ -21,14 +21,8 @@ public class LowercaseDocumentFilter : IDocumentFilter
             }
         }
 
-        foreach (var path in newPaths)
-        {
-            swaggerDoc.Paths.Add(path.Key, path.Value);
-        }
+        foreach (var path in newPaths) swaggerDoc.Paths.Add(path.Key, path.Value);
 
-        foreach (var key in removeKeys)
-        {
-            swaggerDoc.Paths.Remove(key);
-        }
+        foreach (var key in removeKeys) swaggerDoc.Paths.Remove(key);
     }
 }
