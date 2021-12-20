@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silo", "Silo\Silo.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D22117E1-93F9-4133-BD9C-9685C7882262}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grains.Test", "Grains.Test\Grains.Test.csproj", "{976FDE25-C9F9-4271-BDFE-75CEF2BF1A1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{D22117E1-93F9-4133-BD9C-9685C7882262}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D22117E1-93F9-4133-BD9C-9685C7882262}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D22117E1-93F9-4133-BD9C-9685C7882262}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976FDE25-C9F9-4271-BDFE-75CEF2BF1A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976FDE25-C9F9-4271-BDFE-75CEF2BF1A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976FDE25-C9F9-4271-BDFE-75CEF2BF1A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976FDE25-C9F9-4271-BDFE-75CEF2BF1A1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
