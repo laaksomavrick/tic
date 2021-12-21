@@ -22,10 +22,10 @@ public class RoomController : ApiController
         var grain = _client.GetRoomManagerSingleton();
         var room = await grain.OnCreateRoom(name);
 
-        return new GetRoomVm()
+        return new GetRoomVm
         {
             Id = room.Id,
-            Name = room.Name
+            Username = room.Name
         };
     }
 
@@ -34,24 +34,46 @@ public class RoomController : ApiController
     {
         var grain = _client.GetRoomManagerSingleton();
         var users = await grain.OnGetAllRooms();
-        var roomVms = users.Select(x => new GetRoomVm()
+        var roomVms = users.Select(x => new GetRoomVm
         {
             Id = x.Id,
-            Name = x.Name
+            Username = x.Name
         });
 
         return roomVms;
     }
 
     [HttpGet("{roomId}/messages")]
-    public async Task<List<GetMessageVm>> GetAllRoomMessages(int roomId)
+    public async Task<IEnumerable<GetMessageVm>> GetAllRoomMessages(Guid roomId)
     {
-        return new List<GetMessageVm>();
+        var grain = _client.GetRoomGrain(roomId);
+        var room = await grain.OnGetRoom();
+        var messages = room.Messages;
+
+        var vms = messages.Select(x => new GetMessageVm
+        {
+            Id = x.Id,
+            Message = x.Content,
+            Timestamp = x.Timestamp,
+            UserId = x.UserId
+        });
+
+        return vms;
     }
 
     [HttpGet("{roomId}/users")]
-    public async Task<List<GetUserVm>> GetAllRoomUsers(int roomId)
+    public async Task<IEnumerable<GetUserVm>> GetAllRoomUsers(Guid roomId)
     {
-        return new List<GetUserVm>();
+        var grain = _client.GetRoomGrain(roomId);
+        var room = await grain.OnGetRoom();
+        var users = room.Users;
+
+        var vms = users.Select(x => new GetUserVm
+        {
+            Id = x.Id,
+            Username = x.Username
+        });
+
+        return vms;
     }
 }

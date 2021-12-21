@@ -7,10 +7,9 @@ namespace Grains;
 
 public class UserGrain : Grain, IUser
 {
-    
     private readonly IPersistentState<User> _user;
 
-    public UserGrain([PersistentState("user", "ticStorage")]IPersistentState<User> user)
+    public UserGrain([PersistentState("user", "ticStorage")] IPersistentState<User> user)
     {
         _user = user;
     }

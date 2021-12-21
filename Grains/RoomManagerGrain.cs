@@ -9,7 +9,7 @@ public class RoomManagerGrain : Grain, IRoomManager
 {
     private readonly IPersistentState<List<Room>> _rooms;
 
-    public RoomManagerGrain([PersistentState("rooms", "ticStorage")]IPersistentState<List<Room>> rooms)
+    public RoomManagerGrain([PersistentState("rooms", "ticStorage")] IPersistentState<List<Room>> rooms)
     {
         _rooms = rooms;
     }
@@ -18,17 +18,17 @@ public class RoomManagerGrain : Grain, IRoomManager
     {
         var id = Guid.NewGuid();
 
-        var room = new Room()
+        var room = new Room
         {
             Id = id,
             Name = name,
             Users = new List<User>()
         };
-        
+
         _rooms.State.Add(room);
 
         await _rooms.WriteStateAsync();
-        
+
         var roomGrain = GrainFactory.GetGrain<IRoom>(id);
         await roomGrain.OnCreateRoom(room);
 
