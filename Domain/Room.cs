@@ -7,4 +7,6 @@ public class Room
     public string Name { get; set; }
 
     public List<User> Users { get; set; } = new List<User>();
+    
+    public List<Message> Messages { get; set; } = new List<Message>();
 }

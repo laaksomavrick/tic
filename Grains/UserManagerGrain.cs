@@ -29,6 +29,9 @@ public class UserManagerGrain : Grain, IUserManager
 
         await _users.WriteStateAsync();
 
+        var userGrain = GrainFactory.GetGrain<IUser>(guid);
+        await userGrain.OnCreateUser(user);
+
         return await Task.FromResult(user);
     }
 

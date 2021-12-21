@@ -28,6 +28,9 @@ public class RoomManagerGrain : Grain, IRoomManager
         _rooms.State.Add(room);
 
         await _rooms.WriteStateAsync();
+        
+        var roomGrain = GrainFactory.GetGrain<IRoom>(id);
+        await roomGrain.OnCreateRoom(room);
 
         return room;
     }

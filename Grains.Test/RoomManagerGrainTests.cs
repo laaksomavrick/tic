@@ -32,6 +32,21 @@ public class RoomManagerGrainTests
         secondRoom.Name.Should().Be(secondRoomName);
         secondRoom.Id.Should().NotBe(firstRoom.Id);
     }
+    
+    [Test]
+    public async Task ItSpawnsARoomGrainOnCreate()
+    {
+        var grain = _cluster.GrainFactory.GetGrain<IRoomManager>(Guid.Empty);
+        var name = "name";
+        
+        var room = await grain.OnCreateRoom(name);
+        var roomId = room.Id;
+        var roomGrain = _cluster.GrainFactory.GetGrain<IRoom>(roomId);
+        
+        room = await roomGrain.OnGetRoom();
+        room.Name.Should().Be(name);
+    }
+
 
     [Test]
     public async Task ItCanRetrieveRooms()
