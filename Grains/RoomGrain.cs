@@ -1,5 +1,6 @@
 using Domain;
 using GrainInterfaces;
+using Grains.Common.Exceptions;
 using Orleans;
 using Orleans.Runtime;
 
@@ -32,6 +33,13 @@ public class RoomGrain : Grain, IRoom
         var timestamp = DateTime.UtcNow;
         var roomId = _room.State.Id;
 
+        var userInRoom = _room.State.Users.Any(x => x.Id == userId);
+
+        if (userInRoom == false)
+        {
+            throw new UnauthorizedException($"User={id} is not in this room");
+        }
+        
         var message = new Message
         {
             Id = id,
@@ -50,9 +58,17 @@ public class RoomGrain : Grain, IRoom
 
     public async Task<bool> OnUserJoin(Guid userId)
     {
+        var userManagerGrain = GrainFactory.GetGrain<IUserManager>(Guid.Empty);
+        var user = await userManagerGrain.OnGetUser(userId);
+        
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(User), userId);
+        }
+        
         var userGrain = GrainFactory.GetGrain<IUser>(userId);
-        var user = await userGrain.OnGetUser();
-
+        user = await userGrain.OnGetUser();
+        
         _room.State.Users.Add(user);
 
         await _room.WriteStateAsync();
@@ -64,7 +80,10 @@ public class RoomGrain : Grain, IRoom
     {
         var user = _room.State.Users.Find(x => x.Id == userId);
 
-        if (user == null) return false;
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(User), userId);
+        }
 
         _room.State.Users.Remove(user);
 
