@@ -34,6 +34,20 @@ public class UserManagerGrainTests
     }
 
     [Test]
+    public async Task ItSpawnsAUserGrainOnCreate()
+    {
+        var grain = _cluster.GrainFactory.GetGrain<IUserManager>(Guid.Empty);
+        var username = "username";
+
+        var user = await grain.OnCreateUser(username);
+        var userId = user.Id;
+        var userGrain = _cluster.GrainFactory.GetGrain<IUser>(userId);
+
+        user = await userGrain.OnGetUser();
+        user.Username.Should().Be(username);
+    }
+
+    [Test]
     public async Task ItCanRetrieveUsers()
     {
         var grain = _cluster.GrainFactory.GetGrain<IUserManager>(Guid.Empty);
