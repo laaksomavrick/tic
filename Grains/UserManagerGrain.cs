@@ -47,6 +47,4 @@ public class UserManagerGrain : Grain, IUserManager
         var user = users.FirstOrDefault(x => x.Id == id);
         return Task.FromResult(user);
     }
-
-    
 }

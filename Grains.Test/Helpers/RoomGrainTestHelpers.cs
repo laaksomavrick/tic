@@ -13,7 +13,7 @@ public static class RoomGrainTestHelpers
     {
         var grain = cluster.GrainFactory.GetGrain<IRoom>(id);
 
-        var room = new Room()
+        var room = new Room
         {
             Id = id,
             Name = name,
@@ -24,5 +24,5 @@ public static class RoomGrainTestHelpers
         await grain.OnCreateRoom(room);
 
         return grain;
-    } 
+    }
 }

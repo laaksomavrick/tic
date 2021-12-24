@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain;
 using GrainInterfaces;
 using Orleans.TestingHost;
 
@@ -15,5 +13,5 @@ public static class UserGrainTestHelpers
         var user = await userManagerGrain.OnCreateUser(name);
         var grain = cluster.GrainFactory.GetGrain<IUser>(user.Id);
         return grain;
-    } 
+    }
 }
