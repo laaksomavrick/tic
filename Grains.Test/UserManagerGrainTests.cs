@@ -25,8 +25,8 @@ public class UserManagerGrainTests
         var firstUsername = "firstUsername";
         var secondUsername = "secondUsername";
 
-        var firstUser = await grain.OnCreateUser(firstUsername);
-        var secondUser = await grain.OnCreateUser(secondUsername);
+        var firstUser = await grain.OnCreateUser(firstUsername, String.Empty); // TODO
+        var secondUser = await grain.OnCreateUser(secondUsername, String.Empty); // TODO
 
         firstUser.Username.Should().Be(firstUsername);
         secondUser.Username.Should().Be(secondUsername);
@@ -39,7 +39,7 @@ public class UserManagerGrainTests
         var grain = _cluster.GrainFactory.GetGrain<IUserManager>(Guid.Empty);
         var username = "username";
 
-        var user = await grain.OnCreateUser(username);
+        var user = await grain.OnCreateUser(username, String.Empty); // TODO
         var userId = user.Id;
         var userGrain = _cluster.GrainFactory.GetGrain<IUser>(userId);
 
@@ -54,8 +54,8 @@ public class UserManagerGrainTests
         var firstUsername = "firstUsername";
         var secondUsername = "secondUsername";
 
-        await grain.OnCreateUser(firstUsername);
-        await grain.OnCreateUser(secondUsername);
+        await grain.OnCreateUser(firstUsername,String.Empty); // TODO
+        await grain.OnCreateUser(secondUsername, String.Empty); // TODO
 
         var users = await grain.OnGetAllUsers();
 

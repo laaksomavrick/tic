@@ -5,7 +5,7 @@ namespace GrainInterfaces;
 
 public interface IUserManager : IGrainWithGuidKey
 {
-    Task<User> OnCreateUser(string name);
+    Task<User> OnCreateUser(string? name, string connectionId);
 
     Task<List<User>> OnGetAllUsers();
 

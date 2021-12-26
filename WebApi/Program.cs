@@ -1,3 +1,4 @@
+using WebApi.Hubs;
 using WebApi.Orleans;
 using WebApi.Swagger;
 
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(config => { config.DocumentFilter<LowercaseDocumentFilter>(); });
 
 builder.Services.AddOrleansClient(configuration);
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -23,10 +25,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors();
+
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<RoomsHub>("/roomshub");
+    endpoints.MapControllers();
+});
+
 
 app.Run();

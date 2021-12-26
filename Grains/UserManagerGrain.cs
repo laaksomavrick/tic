@@ -16,13 +16,14 @@ public class UserManagerGrain : Grain, IUserManager
         _users = users;
     }
 
-    public async Task<User> OnCreateUser(string name)
+    public async Task<User> OnCreateUser(string? name, string connectionId = "")
     {
         var guid = Guid.NewGuid();
         var user = new User
         {
             Id = guid,
-            Username = name
+            Username = name,
+            ConnectionId = connectionId
         };
 
         _users.State.Add(user);
