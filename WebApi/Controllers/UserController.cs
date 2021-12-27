@@ -36,7 +36,7 @@ public class UserController : ApiController
     {
         var username = createUserDto.Username;
         var grain = _client.GetUserManagerSingleton();
-        var user = await grain.OnCreateUser(username, String.Empty); // TODO
+        var user = await grain.OnCreateUser(username);
 
         return new CreateUserVm
         {

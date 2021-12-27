@@ -1,5 +1,6 @@
 using Domain;
 using GrainInterfaces;
+using Grains.Common.Exceptions;
 using Orleans;
 using Orleans.Runtime;
 
@@ -16,14 +17,13 @@ public class UserManagerGrain : Grain, IUserManager
         _users = users;
     }
 
-    public async Task<User> OnCreateUser(string? name, string connectionId = "")
+    public async Task<User> OnCreateUser(string? name)
     {
         var guid = Guid.NewGuid();
         var user = new User
         {
             Id = guid,
             Username = name,
-            ConnectionId = connectionId
         };
 
         _users.State.Add(user);
@@ -34,6 +34,19 @@ public class UserManagerGrain : Grain, IUserManager
         await userGrain.OnCreateUser(user);
 
         return await Task.FromResult(user);
+    }
+
+    public async Task OnDeleteUser(Guid id)
+    {
+        var user = _users.State.FirstOrDefault(x => x.Id == id);
+
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(User), id);
+        }
+
+        _users.State.Remove(user);
+        await _users.WriteStateAsync();
     }
 
     public Task<List<User>> OnGetAllUsers()

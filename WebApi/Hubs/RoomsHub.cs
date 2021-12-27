@@ -18,16 +18,18 @@ public class RoomsHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        Console.WriteLine("HERE");
-        var connectionId = Context.ConnectionId;
+        Console.WriteLine("OnConnectedAsync");
         var userManager = _client.GetUserManagerSingleton();
-        await userManager.OnCreateUser(null, connectionId);
-        Console.WriteLine("HERE2" + connectionId);
+        var user = await userManager.OnCreateUser(null);
+        Context.Items.Add("userId", user.Id);
         await base.OnConnectedAsync();
     }
     
     public override async Task OnDisconnectedAsync(Exception exception)
     {
+        var userId = (Guid) (Context.Items["userId"] ?? throw new InvalidOperationException("Socket does not have userId"));
+        var userManager = _client.GetUserManagerSingleton();
+        await userManager.OnDeleteUser(userId);
         await base.OnDisconnectedAsync(exception);
     }
 }

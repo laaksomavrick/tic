@@ -13,6 +13,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(config => { config.DocumentFilter<LowercaseDocumentFilter>(); });
 
 builder.Services.AddOrleansClient(configuration);
+
+builder.Services.AddCors(opts =>
+{
+    opts.AddPolicy(name: "CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithOrigins("http://localhost:3000");
+    });
+});
+
 builder.Services.AddSignalR();
 
 var app = builder.Build();
@@ -25,18 +38,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseRouting();
-app.UseCors();
+app.UseHttpsRedirection();
 
-// app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors("CorsPolicy");
+
 
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<RoomsHub>("/roomshub");
+    endpoints.MapHub<RoomsHub>("/hub");
     endpoints.MapControllers();
 });
-
 
 app.Run();
