@@ -1,5 +1,4 @@
-import {useEffect} from 'react';
-import React from 'react';
+import React, {useEffect} from 'react';
 import * as signalR from "@microsoft/signalr";
 
 // Room list
@@ -7,7 +6,7 @@ import * as signalR from "@microsoft/signalr";
 // Chat
 
 function App() {
-    
+
     useEffect(() => {
         (async () => {
             try {
@@ -22,7 +21,7 @@ function App() {
                 })
 
                 await connection.start()
-                
+
                 console.log(connection);
             } catch (e) {
                 console.error(e);
@@ -30,10 +29,10 @@ function App() {
         })()
     }, [])
 
-    
-  return (
-      <h1>hello, world</h1>
-  );
+
+    return (
+        <h1>hello, world</h1>
+    );
 }
 
 export default App;

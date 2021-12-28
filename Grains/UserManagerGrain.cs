@@ -23,7 +23,7 @@ public class UserManagerGrain : Grain, IUserManager
         var user = new User
         {
             Id = guid,
-            Username = name,
+            Username = name
         };
 
         _users.State.Add(user);
@@ -40,10 +40,7 @@ public class UserManagerGrain : Grain, IUserManager
     {
         var user = _users.State.FirstOrDefault(x => x.Id == id);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), id);
-        }
+        if (user == null) throw new NotFoundException(nameof(User), id);
 
         _users.State.Remove(user);
         await _users.WriteStateAsync();

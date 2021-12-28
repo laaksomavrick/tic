@@ -16,13 +16,13 @@ builder.Services.AddOrleansClient(configuration);
 
 builder.Services.AddCors(opts =>
 {
-    opts.AddPolicy(name: "CorsPolicy", builder =>
+    opts.AddPolicy("CorsPolicy", builder =>
     {
         builder.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()
-            .WithOrigins("http://localhost:3000");
+            .WithOrigins("http://localhost:3000"); // TODO: read this from env
     });
 });
 

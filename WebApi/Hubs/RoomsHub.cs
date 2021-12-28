@@ -1,11 +1,8 @@
-using Domain;
 using Microsoft.AspNetCore.SignalR;
 using Orleans;
 using WebApi.Orleans;
 
 namespace WebApi.Hubs;
-
-// Groups on connect
 
 public class RoomsHub : Hub
 {
@@ -18,7 +15,6 @@ public class RoomsHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        Console.WriteLine("OnConnectedAsync");
         var userManager = _client.GetUserManagerSingleton();
         var user = await userManager.OnCreateUser(null);
         Context.Items.Add("userId", user.Id);
