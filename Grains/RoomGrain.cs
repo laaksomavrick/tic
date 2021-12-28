@@ -35,11 +35,8 @@ public class RoomGrain : Grain, IRoom
 
         var userInRoom = _room.State.Users.Any(x => x.Id == userId);
 
-        if (userInRoom == false)
-        {
-            throw new UnauthorizedException($"User={id} is not in this room");
-        }
-        
+        if (userInRoom == false) throw new UnauthorizedException($"User={id} is not in this room");
+
         var message = new Message
         {
             Id = id,
@@ -60,15 +57,12 @@ public class RoomGrain : Grain, IRoom
     {
         var userManagerGrain = GrainFactory.GetGrain<IUserManager>(Guid.Empty);
         var user = await userManagerGrain.OnGetUser(userId);
-        
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), userId);
-        }
-        
+
+        if (user == null) throw new NotFoundException(nameof(User), userId);
+
         var userGrain = GrainFactory.GetGrain<IUser>(userId);
         user = await userGrain.OnGetUser();
-        
+
         _room.State.Users.Add(user);
 
         await _room.WriteStateAsync();
@@ -80,10 +74,7 @@ public class RoomGrain : Grain, IRoom
     {
         var user = _room.State.Users.Find(x => x.Id == userId);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), userId);
-        }
+        if (user == null) throw new NotFoundException(nameof(User), userId);
 
         _room.State.Users.Remove(user);
 

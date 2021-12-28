@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain;
 using FluentAssertions;
-using GrainInterfaces;
 using Grains.Common.Exceptions;
 using Grains.Test.Fixtures;
 using Grains.Test.Helpers;
@@ -38,7 +35,7 @@ public class RoomGrainTests
     public async Task AUserInRoomCanSendAMessage()
     {
         var userName = "bar";
-        
+
         var roomId = Guid.NewGuid();
         var roomName = "foo";
 
@@ -49,20 +46,20 @@ public class RoomGrainTests
 
         var user = await userGrain.OnGetUser();
         var userId = user.Id;
-        
+
         await grain.OnUserJoin(userId);
         await grain.OnMessageCreate(userId, message);
-        
+
         var room = await grain.OnGetRoom();
-        
+
         room.Messages.Count.Should().Be(1);
     }
-    
+
     [Test]
     public async Task AUserNotInRoomCannotSendAMessage()
     {
         var userName = "bar";
-        
+
         var roomId = Guid.NewGuid();
         var roomName = "foo";
 
@@ -70,76 +67,76 @@ public class RoomGrainTests
 
         var userGrain = await UserGrainTestHelpers.CreateUserGrain(_cluster, userName);
         var grain = await RoomGrainTestHelpers.CreateRoomGrain(_cluster, roomId, roomName);
-        
+
         var user = await userGrain.OnGetUser();
         var userId = user.Id;
-        
+
         await grain.OnUserJoin(userId);
-        
+
         await FluentActions.Invoking(() =>
-            grain.OnMessageCreate(Guid.NewGuid(), message)).Should()
+                grain.OnMessageCreate(Guid.NewGuid(), message)).Should()
             .ThrowAsync<UnauthorizedException>();
     }
-    
+
     [Test]
     public async Task AUserCanJoinARoom()
     {
         var userName = "bar";
-        
+
         var roomId = Guid.NewGuid();
         var roomName = "foo";
-        
+
         var userGrain = await UserGrainTestHelpers.CreateUserGrain(_cluster, userName);
         var grain = await RoomGrainTestHelpers.CreateRoomGrain(_cluster, roomId, roomName);
-        
+
         var user = await userGrain.OnGetUser();
         var userId = user.Id;
-        
+
         await grain.OnUserJoin(userId);
-        
+
         var room = await grain.OnGetRoom();
-        
+
         room.Users.Count.Should().Be(1);
     }
-    
+
     [Test]
     public async Task AUserThatDoesNotExistCannotJoinRoom()
     {
         var userName = "bar";
-        
+
         var roomId = Guid.NewGuid();
         var roomName = "foo";
 
         await UserGrainTestHelpers.CreateUserGrain(_cluster, userName);
         var grain = await RoomGrainTestHelpers.CreateRoomGrain(_cluster, roomId, roomName);
-        
+
         await FluentActions.Invoking(() =>
-            grain.OnUserJoin(Guid.NewGuid())).Should()
+                grain.OnUserJoin(Guid.NewGuid())).Should()
             .ThrowAsync<NotFoundException>();
     }
-    
+
     [Test]
     public async Task AUserCanLeaveARoom()
     {
         var userName = "bar";
-        
+
         var roomId = Guid.NewGuid();
         var roomName = "foo";
 
         var userGrain = await UserGrainTestHelpers.CreateUserGrain(_cluster, userName);
         var grain = await RoomGrainTestHelpers.CreateRoomGrain(_cluster, roomId, roomName);
-        
+
         var user = await userGrain.OnGetUser();
         var userId = user.Id;
-        
+
         await grain.OnUserJoin(userId);
         await grain.OnUserLeave(userId);
-        
+
         var room = await grain.OnGetRoom();
-        
+
         room.Users.Count.Should().Be(0);
     }
-    
+
     [Test]
     public async Task AUserThatIsNotInRoomCannotLeaveRoom()
     {
@@ -147,7 +144,7 @@ public class RoomGrainTests
         var roomName = "foo";
 
         var grain = await RoomGrainTestHelpers.CreateRoomGrain(_cluster, roomId, roomName);
-        
+
         await FluentActions.Invoking(() =>
                 grain.OnUserLeave(Guid.NewGuid())).Should()
             .ThrowAsync<NotFoundException>();

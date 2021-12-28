@@ -1,3 +1,4 @@
+using WebApi.Hubs;
 using WebApi.Orleans;
 using WebApi.Swagger;
 
@@ -13,6 +14,20 @@ builder.Services.AddSwaggerGen(config => { config.DocumentFilter<LowercaseDocume
 
 builder.Services.AddOrleansClient(configuration);
 
+builder.Services.AddCors(opts =>
+{
+    opts.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithOrigins("http://localhost:3000"); // TODO: read this from env
+    });
+});
+
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 
@@ -25,8 +40,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseCors("CorsPolicy");
+
+
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<RoomsHub>("/hub");
+    endpoints.MapControllers();
+});
 
 app.Run();
