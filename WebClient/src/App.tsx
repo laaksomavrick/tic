@@ -1,37 +1,23 @@
-import React, {useEffect} from 'react';
-import * as signalR from "@microsoft/signalr";
+import React, { useEffect } from 'react';
+import * as signalR from '@microsoft/signalr';
+import { useConnection } from './ConnectionProvider';
 
 // Room list
 // Join room
 // Chat
 
 function App() {
+    const { connection, loading, error } = useConnection();
 
-    useEffect(() => {
-        (async () => {
-            try {
-
-                const connection = new signalR.HubConnectionBuilder()
-                    .withUrl("https://localhost:7009/hub")
-                    .configureLogging(signalR.LogLevel.Information)
-                    .build();
-
-                connection.on('message', (content: any) => {
-                    console.log(content)
-                })
-
-                await connection.start()
-
-                console.log(connection);
-            } catch (e) {
-                console.error(e);
-            }
-        })()
-    }, [])
-
+    connection?.on('message', (content: any) => {
+        console.log(content);
+    });
 
     return (
-        <h1>hello, world</h1>
+        <>
+            <h1>{loading ? 'loading' : 'loaded'}</h1>
+            {error === true ? <p>error</p> : null}
+        </>
     );
 }
 
