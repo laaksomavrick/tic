@@ -2,6 +2,10 @@ import {useEffect} from 'react';
 import React from 'react';
 import * as signalR from "@microsoft/signalr";
 
+// Room list
+// Join room
+// Chat
+
 function App() {
     
     useEffect(() => {
