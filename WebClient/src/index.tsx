@@ -6,9 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <React.StrictMode>
-        <ConnectionProvider>
-            <App />
-        </ConnectionProvider>
+        {/*<ConnectionProvider>*/}
+        <App />
+        {/*</ConnectionProvider>*/}
     </React.StrictMode>,
     document.getElementById('root'),
 );
