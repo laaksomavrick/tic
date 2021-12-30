@@ -4,28 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { TIC_BACKGROUND_COLOR_AND_TEXT } from '../common/common-styles';
 import { TicHeading } from '../common/TicHeading';
 import { TicText } from '../common/TicText';
-
-const rooms = [
-    {
-        id: '1',
-        name: 'Extravagant Blue, Or Otherwise Known as Something Really Long',
-        description: "foo bar baz blah blah blah" // ?
-    },
-    {
-        id: '2',
-        name: 'Somewhere Out There',
-    },
-    {
-        id: '3',
-        name: 'Casual Chat',
-    },
-    {
-        id: '4',
-        name: 'Lorem Ipsum',
-    },
-];
+import { useRooms } from '../RoomProvider';
 
 export const RoomListPage: React.FC = () => {
+
+    const { rooms, loading, error } = useRooms();
 
     const navigate = useNavigate();
 
