@@ -1,9 +1,9 @@
 import { Flex, Grid } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
-import { TicHeading } from './TicHeading';
-import { TicText } from './TicText';
 import { useNavigate } from 'react-router-dom';
-import { TIC_BACKGROUND_COLOR_AND_TEXT } from './common-styles';
+import { TIC_BACKGROUND_COLOR_AND_TEXT } from '../common/common-styles';
+import { TicHeading } from '../common/TicHeading';
+import { TicText } from '../common/TicText';
 
 const rooms = [
     {
