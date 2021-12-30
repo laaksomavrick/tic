@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Navigate, Routes } from 'react-router-d
 import { RoomListPage } from './RoomListPage';
 import { Box, CSSReset } from '@chakra-ui/react';
 import { UserInterfaceShell } from './UserInterfaceShell';
+import { TicHeading } from './TicHeading';
+import { ChatroomPage } from './ChatroomPage';
 
 // Room list
 // Join room
@@ -22,7 +24,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/" element={<RoomListPage />} />
-                    <Route path="/rooms/:roomId" element={<h1>chatroom</h1>} />
+                    <Route path="/rooms/:roomId" element={<ChatroomPage />} />
                     <Route path="*" element={<Navigate replace to="/" />} />
                 </Routes>
             </Router>
