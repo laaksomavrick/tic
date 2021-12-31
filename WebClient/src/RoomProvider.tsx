@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
 export interface RoomState {
     rooms: any[];
@@ -10,7 +10,7 @@ export const RoomContext = createContext<RoomState>({
     rooms: [],
     loading: false,
     error: false,
-})
+});
 
 export const useRooms = () => useContext(RoomContext);
 
@@ -20,7 +20,7 @@ export const RoomProvider: React.FC = ({ children }) => {
             {
                 id: '1',
                 name: 'Extravagant Blue, Or Otherwise Known as Something Really Long',
-                description: "foo bar baz blah blah blah" // maybe description too ?
+                description: 'foo bar baz blah blah blah', // maybe description too ?
             },
             {
                 id: '2',
@@ -36,10 +36,10 @@ export const RoomProvider: React.FC = ({ children }) => {
             },
         ],
         loading: false,
-        error: false 
-    }
+        error: false,
+    };
 
     return (
         <RoomContext.Provider value={state}>{children}</RoomContext.Provider>
-    )
-}
+    );
+};

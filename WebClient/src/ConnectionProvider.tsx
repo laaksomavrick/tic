@@ -19,7 +19,9 @@ export const ConnectionContext = createContext<ConnectionState>({
 export const useConnection = () => useContext(ConnectionContext);
 
 export const ConnectionProvider: React.FC = ({ children }) => {
-    const [connection, setConnection] = useState<Connection | undefined>(undefined);
+    const [connection, setConnection] = useState<Connection | undefined>(
+        undefined,
+    );
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
@@ -49,6 +51,8 @@ export const ConnectionProvider: React.FC = ({ children }) => {
     const connectionState = { connection, loading, error };
 
     return (
-        <ConnectionContext.Provider value={connectionState}>{children}</ConnectionContext.Provider>
+        <ConnectionContext.Provider value={connectionState}>
+            {children}
+        </ConnectionContext.Provider>
     );
 };
