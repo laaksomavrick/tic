@@ -48,7 +48,7 @@ public class RoomController : ApiController
         return roomVms;
     }
 
-    [HttpGet("{roomId}/messages")]
+    [HttpGet("{roomId:guid}/messages")]
     public async Task<IEnumerable<GetMessageVm>> GetAllRoomMessages(Guid roomId)
     {
         var grain = _client.GetRoomGrain(roomId);
@@ -66,7 +66,7 @@ public class RoomController : ApiController
         return vms;
     }
 
-    [HttpGet("{roomId}/users")]
+    [HttpGet("{roomId:guid}/users")]
     public async Task<IEnumerable<GetUserVm>> GetAllRoomUsers(Guid roomId)
     {
         var grain = _client.GetRoomGrain(roomId);
@@ -82,7 +82,7 @@ public class RoomController : ApiController
         return vms;
     }
 
-    [HttpPost("{roomId}/join")]
+    [HttpPost("{roomId:guid}/join")]
     public async Task<ActionResult> JoinRoom(Guid roomId, JoinRoomDto joinRoomDto)
     {
         var connectionId = joinRoomDto.ConnectionId;
