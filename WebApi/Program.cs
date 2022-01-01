@@ -9,10 +9,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(config =>
-{
-    config.CustomOperationIds(OperationIdSchema.GetOperationIdSchema);
-});
+builder.Services.AddSwaggerGen(config => { config.CustomOperationIds(OperationIdSchema.GetOperationIdSchema); });
 
 builder.Services.AddOrleansClient(configuration);
 
