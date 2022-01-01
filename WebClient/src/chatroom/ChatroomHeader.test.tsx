@@ -13,7 +13,7 @@ describe('ChatroomHeader', () => {
     });
 
     it('displays the room name', () => {
-        const roomName = "roomName"
+        const roomName = 'roomName';
         const { getByText } = render(
             <ChatroomHeader name={roomName} onClickBackButton={jest.fn()} />,
         );
@@ -29,7 +29,7 @@ describe('ChatroomHeader', () => {
         const { getByRole } = render(
             <ChatroomHeader name="foo" onClickBackButton={backButtonMock} />,
         );
-        const backButton = getByRole('button', { name: 'back-button'}); 
+        const backButton = getByRole('button', { name: 'back-button' });
 
         fireEvent.click(backButton);
 
@@ -40,16 +40,16 @@ describe('ChatroomHeader', () => {
         const { getByText, getByRole } = render(
             <ChatroomHeader name="foo" onClickBackButton={jest.fn()} />,
         );
-        const usersPopoverButton = getByRole('button', { name: 'users-button'}); 
+        const usersPopoverButton = getByRole('button', {
+            name: 'users-button',
+        });
 
         fireEvent.click(usersPopoverButton);
 
-        const usersPopoverHeader = getByText('Users')
+        const usersPopoverHeader = getByText('Users');
         expect(usersPopoverHeader).toBeInTheDocument();
         await waitFor(() => {
             expect(usersPopoverHeader).toBeVisible();
-        })
+        });
     });
-
-})
-
+});

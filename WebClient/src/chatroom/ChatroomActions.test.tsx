@@ -3,9 +3,7 @@ import { ChatroomActions } from './ChatroomActions';
 
 describe('ChatroomActions', () => {
     it('can render', () => {
-        const { getByTestId } = render(
-            <ChatroomActions  />,
-        );
+        const { getByTestId } = render(<ChatroomActions />);
 
         const actions = getByTestId('ChatroomActions');
 
@@ -13,5 +11,4 @@ describe('ChatroomActions', () => {
     });
 
     // TODO: more tests as functionality is added
-})
-
+});

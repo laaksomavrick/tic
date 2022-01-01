@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react';
 import { RoomListItem } from './RoomListItem';
 
 describe('RoomListItem', () => {
-    const room = {id: '1', name: 'roomName'}
+    const room = { id: '1', name: 'roomName' };
 
     it('can render', () => {
         const { getByTestId } = render(
@@ -15,7 +15,7 @@ describe('RoomListItem', () => {
     });
 
     it('displays the room name', () => {
-        const roomName = "roomName"
+        const roomName = 'roomName';
         const { getByText } = render(
             <RoomListItem room={room} onClickRoom={jest.fn()} />,
         );
@@ -38,6 +38,4 @@ describe('RoomListItem', () => {
 
         expect(onClickRoomMock).toHaveBeenCalled();
     });
-
-})
-
+});

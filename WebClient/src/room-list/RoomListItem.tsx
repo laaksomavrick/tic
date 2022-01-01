@@ -1,13 +1,17 @@
-import { Flex, FlexProps } from "@chakra-ui/react";
-import { TIC_BACKGROUND_COLOR_AND_TEXT } from "../common/common-styles";
-import { TicText } from "../common/TicText";
+import { Flex, FlexProps } from '@chakra-ui/react';
+import { TIC_BACKGROUND_COLOR_AND_TEXT } from '../common/common-styles';
+import { TicText } from '../common/TicText';
 
 export interface RoomListItemProps extends FlexProps {
     room: any; // TODO
-    onClickRoom: (roomId: string) => void
+    onClickRoom: (roomId: string) => void;
 }
 
-export const RoomListItem: React.FC<RoomListItemProps> = ({ room, onClickRoom, ...rest }) => {
+export const RoomListItem: React.FC<RoomListItemProps> = ({
+    room,
+    onClickRoom,
+    ...rest
+}) => {
     const id = room.id;
     return (
         <Flex

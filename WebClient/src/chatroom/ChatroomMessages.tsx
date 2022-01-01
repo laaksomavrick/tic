@@ -36,14 +36,14 @@ export const ChatroomMessages: React.FC<ChatroomMessagesProps> = () => {
             overflowY="scroll"
             css={{
                 '::-webkit-scrollbar': {
-                    'backgroundColor': 'transparent',
+                    backgroundColor: 'transparent',
                     width: '8px',
                 },
                 '::-webkit-scrollbar-track': {
-                    'backgroundColor': 'transparent',
+                    backgroundColor: 'transparent',
                 },
                 '::-webkit-scrollbar-thumb': {
-                    'backgroundColor': 'rgb(226, 232, 240)',
+                    backgroundColor: 'rgb(226, 232, 240)',
                 },
             }}
         >
