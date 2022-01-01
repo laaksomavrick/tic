@@ -3,6 +3,10 @@ name: build-and-test-frontend
 on:
   pull_request:
     branches: [ master ]
+    
+defaults: 
+  run:
+    working-directory: ./WebClient
 
 jobs:
   build:
@@ -17,8 +21,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Open working directory
-        run: cd WebClient
       - name: Install dependencies
         run: yarn
       - name: Test
