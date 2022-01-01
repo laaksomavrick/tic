@@ -1,0 +1,29 @@
+name: build-and-test-frontend
+
+on:
+  pull_request:
+    branches: [ master ]
+    
+defaults: 
+  run:
+    working-directory: ./WebClient
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn
+      - name: Test
+        run: yarn test
+      - name: Build
+        run: yarn build
