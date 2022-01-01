@@ -1,16 +1,14 @@
+import { ArrowBackIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import {
     Flex,
-    FlexProps,
-    Popover,
+    FlexProps, IconButton, Popover,
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
     PopoverHeader,
-    PopoverTrigger,
+    PopoverTrigger
 } from '@chakra-ui/react';
 import { TicHeading } from '../common/TicHeading';
-import { IconButton } from '@chakra-ui/react';
-import { ArrowBackIcon, InfoOutlineIcon, ViewIcon } from '@chakra-ui/icons';
 
 export interface ChatroomHeaderProps extends FlexProps {
     name: string;

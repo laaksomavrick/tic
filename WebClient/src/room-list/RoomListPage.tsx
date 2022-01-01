@@ -6,7 +6,7 @@ import { useRooms } from '../RoomProvider';
 import { RoomListItem } from './RoomListItem';
 
 export const RoomListPage: React.FC = () => {
-    const { rooms, loading, error } = useRooms();
+    const { rooms } = useRooms();
 
     const navigate = useNavigate();
 

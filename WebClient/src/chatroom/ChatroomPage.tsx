@@ -1,10 +1,6 @@
-import { SettingsIcon, StarIcon } from '@chakra-ui/icons';
-import { Grid, Flex, Input, Button } from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { TIC_BACKGROUND_COLOR_AND_TEXT } from '../common/common-styles';
-import { TicHeading } from '../common/TicHeading';
-import { TicText } from '../common/TicText';
 import { useRooms } from '../RoomProvider';
 import { ChatroomActions } from './ChatroomActions';
 import { ChatroomHeader } from './ChatroomHeader';
@@ -17,7 +13,7 @@ export const ChatroomPage: React.FC = () => {
 
     const onClickBackButton = useCallback(() => {
         navigate('/');
-    }, []);
+    }, [navigate]);
 
     if (roomId == null) {
         return <Navigate replace to="/" />;
