@@ -1,7 +1,7 @@
 import { SettingsIcon, StarIcon } from '@chakra-ui/icons';
 import { Grid, Flex, Input, Button } from '@chakra-ui/react';
-import React from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { TIC_BACKGROUND_COLOR_AND_TEXT } from '../common/common-styles';
 import { TicHeading } from '../common/TicHeading';
 import { TicText } from '../common/TicText';
@@ -13,6 +13,11 @@ import { ChatroomMessages } from './ChatroomMessages';
 export const ChatroomPage: React.FC = () => {
     const { roomId } = useParams();
     const { rooms } = useRooms();
+    const navigate = useNavigate();
+
+    const onClickBackButton = useCallback(() => {
+        navigate('/');
+    }, []);
 
     if (roomId == null) {
         return <Navigate replace to="/" />;
@@ -31,7 +36,10 @@ export const ChatroomPage: React.FC = () => {
             w="100%"
             gridTemplateRows={['min-content 1fr min-content']}
         >
-            <ChatroomHeader name={room.name} />
+            <ChatroomHeader
+                name={room.name}
+                onClickBackButton={onClickBackButton}
+            />
             <ChatroomMessages />
             <ChatroomActions />
         </Grid>

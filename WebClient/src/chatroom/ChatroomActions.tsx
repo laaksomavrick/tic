@@ -9,7 +9,7 @@ export const ChatroomActions: React.FC<ChatroomActionsProps> = ({
     ...rest
 }) => {
     return (
-        <Flex direction="column" {...rest}>
+        <Flex data-testid="ChatroomActions" direction="column" {...rest}>
             <Input
                 w="100%"
                 minH="40px"
