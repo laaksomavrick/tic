@@ -14,24 +14,12 @@ public class RoomManagerGrain : Grain, IRoomManager
         _rooms = rooms;
     }
 
-    public async Task<Room> OnCreateRoom(string name)
+    public async Task<Room> OnCreateRoom(Room room)
     {
-        var id = Guid.NewGuid();
-
-        var room = new Room
-        {
-            Id = id,
-            Name = name,
-            Users = new List<User>()
-        };
-
         _rooms.State.Add(room);
-
+        
         await _rooms.WriteStateAsync();
-
-        var roomGrain = GrainFactory.GetGrain<IRoom>(id);
-        await roomGrain.OnCreateRoom(room);
-
+        
         return room;
     }
 

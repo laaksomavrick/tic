@@ -55,7 +55,12 @@ static async Task<ISiloHost> StartSilo(IConfigurationRoot config)
             options.Service = service;
         })
         .ConfigureApplicationParts(
-            parts => parts.AddApplicationPart(typeof(UserManagerGrain).Assembly).WithReferences())
+            parts =>
+            {
+                parts.AddApplicationPart(typeof(RoomManagerGrain).Assembly).WithReferences();
+                parts.AddApplicationPart(typeof(RoomGrain).Assembly).WithReferences();
+                parts.AddApplicationPart(typeof(UserGrain).Assembly).WithReferences();
+            })
         .ConfigureLogging(logging => logging.AddConsole());
 
     var host = builder.Build();

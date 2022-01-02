@@ -17,6 +17,13 @@ public class RoomGrain : Grain, IRoom
 
     public Task<Room> OnGetRoom()
     {
+        var exists = _room.RecordExists;
+
+        if (exists == false)
+        {
+            throw new NotFoundException(nameof(Room), this.GetPrimaryKey());
+        }
+        
         var room = _room.State;
         return Task.FromResult(room);
     }
@@ -25,6 +32,9 @@ public class RoomGrain : Grain, IRoom
     {
         _room.State = room;
         await _room.WriteStateAsync();
+        
+        var roomManagerGrain = GrainFactory.GetGrain<IRoomManager>(Guid.Empty);
+        await roomManagerGrain.OnCreateRoom(_room.State);
     }
 
     public async Task<Message> OnMessageCreate(Guid userId, string content)
@@ -55,13 +65,10 @@ public class RoomGrain : Grain, IRoom
 
     public async Task<bool> OnUserJoin(Guid userId)
     {
-        var userManagerGrain = GrainFactory.GetGrain<IUserManager>(Guid.Empty);
-        var user = await userManagerGrain.OnGetUser(userId);
+        var userGrain = GrainFactory.GetGrain<IUser>(userId);
+        var user = await userGrain.OnGetUser();
 
         if (user == null) throw new NotFoundException(nameof(User), userId);
-
-        var userGrain = GrainFactory.GetGrain<IUser>(userId);
-        user = await userGrain.OnGetUser();
 
         _room.State.Users.Add(user);
 

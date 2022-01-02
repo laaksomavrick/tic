@@ -1,3 +1,4 @@
+using Application;
 using Microsoft.AspNetCore.Mvc;
 using Orleans;
 using WebApi.DomainTransferObjects;
@@ -9,34 +10,33 @@ namespace WebApi.Controllers;
 public class UserController : ApiController
 {
     private readonly IClusterClient _client;
+    private readonly IUserService _userService;
 
-    public UserController(IClusterClient client)
+    public UserController(IClusterClient client, IUserService userService)
     {
         _client = client;
+        _userService = userService;
     }
-
-    // Retrieve a list of users
-    [HttpGet]
-    public async Task<IEnumerable<GetUserVm>> GetAll()
+    
+    [HttpGet("{userId:guid}")]
+    public async Task<GetUserVm> GetOne(Guid userId)
     {
-        var grain = _client.GetUserManagerSingleton();
-        var users = await grain.OnGetAllUsers();
-        var userVms = users.Select(x => new GetUserVm
+        var grain = _client.GetUserGrain(userId);
+        var user = await grain.OnGetUser();
+        
+        return new GetUserVm
         {
-            Id = x.Id,
-            Username = x.Username
-        });
-
-        return userVms;
+            Id = user.Id,
+            Username = user.Username
+        };
     }
 
-    // Create a user
     [HttpPost]
-    public async Task<CreateUserVm> Create([FromBody] CreateUserDto createUserDto)
+    public async Task<CreateUserVm> Create()
     {
-        var username = createUserDto.Username;
-        var grain = _client.GetUserManagerSingleton();
-        var user = await grain.OnCreateUser(username);
+        var user = _userService.CreateUser();
+        var grain = _client.GetUserGrain(user.Id);
+        await grain.OnCreateUser(user);
 
         return new CreateUserVm
         {
