@@ -6,6 +6,7 @@ import {
     Routes,
 } from 'react-router-dom';
 import { ChatroomPage } from './chatroom/ChatroomPage';
+import { LoadingMask } from './common/LoadingMask';
 import { UserInterfaceShell } from './common/UserInterfaceShell';
 import { RoomListPage } from './room-list/RoomListPage';
 import { RoomProvider } from './RoomContext';
@@ -22,16 +23,18 @@ function App() {
         <UserInterfaceShell>
             <UserProvider>
                 <RoomProvider>
-                    <Router>
-                        <Routes>
-                            <Route path="/" element={<RoomListPage />} />
-                            <Route
-                                path="/rooms/:roomId"
-                                element={<ChatroomPage />}
-                            />
-                            <Route path="*" element={<Navigate replace to="/" />} />
-                        </Routes>
-                    </Router>
+                    <LoadingMask>
+                        <Router>
+                            <Routes>
+                                <Route path="/" element={<RoomListPage />} />
+                                <Route
+                                    path="/rooms/:roomId"
+                                    element={<ChatroomPage />}
+                                />
+                                <Route path="*" element={<Navigate replace to="/" />} />
+                            </Routes>
+                        </Router>
+                    </LoadingMask>
                 </RoomProvider>
             </UserProvider>
         </UserInterfaceShell>
