@@ -34,7 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write '*/**/*.{ts,tsx}'",
-    "openapi-generate": "restful-react import --output src/api/index.tsx --file ./openapi/specification.json"
+    "openapi-generate": "restful-react import --output src/api/hooks.tsx --file ./openapi/specification.json"
   },
   "eslintConfig": {
     "extends": [

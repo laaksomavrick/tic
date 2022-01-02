@@ -2,7 +2,7 @@ import { Flex, Grid } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TicHeading } from '../common/TicHeading';
-import { useRooms } from '../RoomProvider';
+import { useRooms } from '../RoomContext';
 import { RoomListItem } from './RoomListItem';
 
 export const RoomListPage: React.FC = () => {

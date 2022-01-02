@@ -8,7 +8,8 @@ import {
 import { ChatroomPage } from './chatroom/ChatroomPage';
 import { UserInterfaceShell } from './common/UserInterfaceShell';
 import { RoomListPage } from './room-list/RoomListPage';
-import { RoomProvider } from './RoomProvider';
+import { RoomProvider } from './RoomContext';
+import { UserProvider } from './UserContext';
 
 function App() {
     // const { connection, loading, error } = useConnection();
@@ -17,22 +18,22 @@ function App() {
     //     console.log(content);
     // });
 
-    // TODO: room provider ok here or make an abstraction e.g. dataprovider
-
     return (
         <UserInterfaceShell>
-            <RoomProvider>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<RoomListPage />} />
-                        <Route
-                            path="/rooms/:roomId"
-                            element={<ChatroomPage />}
-                        />
-                        <Route path="*" element={<Navigate replace to="/" />} />
-                    </Routes>
-                </Router>
-            </RoomProvider>
+            <UserProvider>
+                <RoomProvider>
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<RoomListPage />} />
+                            <Route
+                                path="/rooms/:roomId"
+                                element={<ChatroomPage />}
+                            />
+                            <Route path="*" element={<Navigate replace to="/" />} />
+                        </Routes>
+                    </Router>
+                </RoomProvider>
+            </UserProvider>
         </UserInterfaceShell>
     );
 }

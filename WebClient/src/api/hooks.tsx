@@ -21,10 +21,6 @@ export interface CreateRoomDto {
   name: string;
 }
 
-export interface CreateUserDto {
-  username: string;
-}
-
 export interface CreateUserVm {
   id?: string;
   username?: string | null;
@@ -157,25 +153,29 @@ export type UseRoomJoinRoomProps = Omit<UseMutateProps<void, unknown, void, Join
 export const useRoomJoinRoom = ({roomId, ...props}: UseRoomJoinRoomProps) => useMutate<void, unknown, void, JoinRoomDto, RoomJoinRoomPathParams>("POST", (paramsInPath: RoomJoinRoomPathParams) => `/api/room/${paramsInPath.roomId}/join`, {  pathParams: { roomId }, ...props });
 
 
-export type UserGetAllProps = Omit<GetProps<GetUserVm[], unknown, void, void>, "path">;
+export interface UserGetOnePathParams {
+  userId: string
+}
 
-export const UserGetAll = (props: UserGetAllProps) => (
-  <Get<GetUserVm[], unknown, void, void>
-    path={`/api/user`}
+export type UserGetOneProps = Omit<GetProps<GetUserVm, unknown, void, UserGetOnePathParams>, "path"> & UserGetOnePathParams;
+
+export const UserGetOne = ({userId, ...props}: UserGetOneProps) => (
+  <Get<GetUserVm, unknown, void, UserGetOnePathParams>
+    path={`/api/user/${userId}`}
     
     {...props}
   />
 );
 
-export type UseUserGetAllProps = Omit<UseGetProps<GetUserVm[], unknown, void, void>, "path">;
+export type UseUserGetOneProps = Omit<UseGetProps<GetUserVm, unknown, void, UserGetOnePathParams>, "path"> & UserGetOnePathParams;
 
-export const useUserGetAll = (props: UseUserGetAllProps) => useGet<GetUserVm[], unknown, void, void>(`/api/user`, props);
+export const useUserGetOne = ({userId, ...props}: UseUserGetOneProps) => useGet<GetUserVm, unknown, void, UserGetOnePathParams>((paramsInPath: UserGetOnePathParams) => `/api/user/${paramsInPath.userId}`, {  pathParams: { userId }, ...props });
 
 
-export type UserCreateProps = Omit<MutateProps<CreateUserVm, unknown, void, CreateUserDto, void>, "path" | "verb">;
+export type UserCreateProps = Omit<MutateProps<CreateUserVm, unknown, void, void, void>, "path" | "verb">;
 
 export const UserCreate = (props: UserCreateProps) => (
-  <Mutate<CreateUserVm, unknown, void, CreateUserDto, void>
+  <Mutate<CreateUserVm, unknown, void, void, void>
     verb="POST"
     path={`/api/user`}
     
@@ -183,7 +183,7 @@ export const UserCreate = (props: UserCreateProps) => (
   />
 );
 
-export type UseUserCreateProps = Omit<UseMutateProps<CreateUserVm, unknown, void, CreateUserDto, void>, "path" | "verb">;
+export type UseUserCreateProps = Omit<UseMutateProps<CreateUserVm, unknown, void, void, void>, "path" | "verb">;
 
-export const useUserCreate = (props: UseUserCreateProps) => useMutate<CreateUserVm, unknown, void, CreateUserDto, void>("POST", `/api/user`, props);
+export const useUserCreate = (props: UseUserCreateProps) => useMutate<CreateUserVm, unknown, void, void, void>("POST", `/api/user`, props);
 
