@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { GetDataError } from "restful-react";
-import { GetUserVm } from "./api/hooks";
-import { useApi } from "./api/ApiContext";
-import { useLocalStorage } from "./LocalStorageContext";
+import { GetUserVm } from "../api/hooks";
+import { useApi } from "../api/ApiContext";
+import { useLocalStorage } from "../LocalStorageContext";
 
-const USER_DATA = "USER_DATA";
+export const USER_DATA = "USER_DATA";
 
 export interface UserState {
     user: GetUserVm | null;

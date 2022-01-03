@@ -10,7 +10,7 @@ import { LoadingMask } from './common/LoadingMask';
 import { UserInterfaceShell } from './common/UserInterfaceShell';
 import { RoomListPage } from './room-list/RoomListPage';
 import { RoomProvider } from './RoomContext';
-import { UserProvider } from './UserContext';
+import { UserProvider } from './user/UserContext';
 
 function App() {
     // const { connection, loading, error } = useConnection();
