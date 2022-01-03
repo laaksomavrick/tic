@@ -9,12 +9,12 @@ public static class ClusterClientExtensions
     {
         return client.GetGrain<IRoom>(roomId);
     }
-    
+
     public static IRoomManager GetRoomManagerSingleton(this IClusterClient client)
     {
         return client.GetGrain<IRoomManager>(Guid.Empty);
     }
-    
+
     public static IUser GetUserGrain(this IClusterClient client, Guid userId)
     {
         return client.GetGrain<IUser>(userId);

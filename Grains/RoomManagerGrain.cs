@@ -17,9 +17,9 @@ public class RoomManagerGrain : Grain, IRoomManager
     public async Task<Room> OnCreateRoom(Room room)
     {
         _rooms.State.Add(room);
-        
+
         await _rooms.WriteStateAsync();
-        
+
         return room;
     }
 

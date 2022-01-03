@@ -40,7 +40,7 @@ public class RoomGrainTests
             Id = Guid.NewGuid(),
             Username = "bar"
         };
-        
+
         var roomId = Guid.NewGuid();
         var roomName = "foo";
 
@@ -65,7 +65,7 @@ public class RoomGrainTests
             Id = Guid.NewGuid(),
             Username = "bar"
         };
-        
+
         var roomId = Guid.NewGuid();
         var roomName = "foo";
 
@@ -89,7 +89,7 @@ public class RoomGrainTests
             Id = Guid.NewGuid(),
             Username = "bar"
         };
-        
+
         var roomId = Guid.NewGuid();
         var roomName = "foo";
 

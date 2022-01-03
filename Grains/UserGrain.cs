@@ -19,11 +19,8 @@ public class UserGrain : Grain, IUser
     {
         var exists = _user.RecordExists;
 
-        if (exists == false)
-        {
-            throw new NotFoundException(nameof(User), this.GetPrimaryKey());
-        }
-        
+        if (exists == false) throw new NotFoundException(nameof(User), this.GetPrimaryKey());
+
         var user = _user.State;
         return Task.FromResult(user);
     }

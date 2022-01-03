@@ -52,15 +52,14 @@ public class UserGrainTests
         gotUser.Id.Should().Be(userId);
         gotUser.Username.Should().Be(username);
     }
-    
+
     [Test]
     public async Task ItThrowsWhenUserDoesNotExist()
     {
         var grain = _cluster.GrainFactory.GetGrain<IUser>(Guid.Empty);
-        
+
         await FluentActions.Invoking(() =>
                 grain.OnGetUser()).Should()
             .ThrowAsync<NotFoundException>();
-
     }
 }

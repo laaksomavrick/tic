@@ -19,11 +19,8 @@ public class RoomGrain : Grain, IRoom
     {
         var exists = _room.RecordExists;
 
-        if (exists == false)
-        {
-            throw new NotFoundException(nameof(Room), this.GetPrimaryKey());
-        }
-        
+        if (exists == false) throw new NotFoundException(nameof(Room), this.GetPrimaryKey());
+
         var room = _room.State;
         return Task.FromResult(room);
     }
@@ -32,7 +29,7 @@ public class RoomGrain : Grain, IRoom
     {
         _room.State = room;
         await _room.WriteStateAsync();
-        
+
         var roomManagerGrain = GrainFactory.GetGrain<IRoomManager>(Guid.Empty);
         await roomManagerGrain.OnCreateRoom(_room.State);
     }
