@@ -1,10 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { GetDataError } from "restful-react";
-import { GetUserVm } from "../api/hooks";
-import { useApi } from "../api/ApiContext";
-import { useLocalStorage } from "../LocalStorageContext";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { GetDataError } from 'restful-react';
+import { GetUserVm } from '../api/hooks';
+import { useApi } from '../api/ApiContext';
+import { useLocalStorage } from '../LocalStorageContext';
 
-export const USER_DATA = "USER_DATA";
+export const USER_DATA = 'USER_DATA';
 
 export interface UserState {
     user: GetUserVm | null;
@@ -16,7 +16,7 @@ export const UserContext = createContext<UserState>({
     user: null,
     loading: true,
     error: null,
-})
+});
 
 export const useUser = () => useContext(UserContext);
 
@@ -28,55 +28,51 @@ export const UserProvider: React.FC = ({ children }) => {
     const [state, setState] = useState<UserState>({
         user: null,
         loading: true,
-        error: null
+        error: null,
     });
 
     useEffect(() => {
-         (async () => {
-            if (state.user != null)
-            {
+        (async () => {
+            if (state.user != null) {
                 return;
             }
-            
+
             if (state.error != null) {
                 return;
             }
 
             const userJson = getItem(USER_DATA);
 
-            if (userJson == null)
-            {
-                const user = await mutate()
+            if (userJson == null) {
+                const user = await mutate();
 
                 setItem(USER_DATA, JSON.stringify(user));
 
                 setState({
                     ...state,
-                    user
-                })
+                    user,
+                });
             } else {
                 const user = JSON.parse(userJson);
 
                 setState({
                     error: null,
                     loading: false,
-                    user
-                })
+                    user,
+                });
             }
-
-        })()
+        })();
     }, [getItem, state, setItem]);
 
     useEffect(() => {
-        setState(state => ({...state, loading}))
-    }, [loading])
+        setState((state) => ({ ...state, loading }));
+    }, [loading]);
 
     useEffect(() => {
-        setState(state => ({...state, error}))
-    }, [error])
+        setState((state) => ({ ...state, error }));
+    }, [error]);
 
     return (
         <UserContext.Provider value={state}>{children}</UserContext.Provider>
     );
-
-}
+};
