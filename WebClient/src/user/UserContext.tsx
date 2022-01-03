@@ -62,7 +62,7 @@ export const UserProvider: React.FC = ({ children }) => {
                 });
             }
         })();
-    }, [getItem, state, setItem]);
+    }, [getItem, state, setItem, mutate]);
 
     useEffect(() => {
         setState((state) => ({ ...state, loading }));

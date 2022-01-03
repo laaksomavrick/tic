@@ -1,7 +1,6 @@
 using Application;
 using Microsoft.AspNetCore.Mvc;
 using Orleans;
-using WebApi.DomainTransferObjects;
 using WebApi.Orleans;
 using WebApi.ViewModels;
 
@@ -17,13 +16,13 @@ public class UserController : ApiController
         _client = client;
         _userService = userService;
     }
-    
+
     [HttpGet("{userId:guid}")]
     public async Task<GetUserVm> GetOne(Guid userId)
     {
         var grain = _client.GetUserGrain(userId);
         var user = await grain.OnGetUser();
-        
+
         return new GetUserVm
         {
             Id = user.Id,
