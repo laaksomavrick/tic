@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Domain;
 using FluentAssertions;
 using GrainInterfaces;
 using Grains.Test.Fixtures;
@@ -25,28 +26,13 @@ public class RoomManagerGrainTests
         var firstRoomName = "firstRoomName";
         var secondRoomName = "secondRoomName";
 
-        var firstRoom = await grain.OnCreateRoom(firstRoomName);
-        var secondRoom = await grain.OnCreateRoom(secondRoomName);
+        var firstRoom = await grain.OnCreateRoom(new Room {Id = Guid.NewGuid(), Name = firstRoomName});
+        var secondRoom = await grain.OnCreateRoom(new Room {Id = Guid.NewGuid(), Name = secondRoomName});
 
         firstRoom.Name.Should().Be(firstRoomName);
         secondRoom.Name.Should().Be(secondRoomName);
         secondRoom.Id.Should().NotBe(firstRoom.Id);
     }
-
-    [Test]
-    public async Task ItSpawnsARoomGrainOnCreate()
-    {
-        var grain = _cluster.GrainFactory.GetGrain<IRoomManager>(Guid.Empty);
-        var name = "name";
-
-        var room = await grain.OnCreateRoom(name);
-        var roomId = room.Id;
-        var roomGrain = _cluster.GrainFactory.GetGrain<IRoom>(roomId);
-
-        room = await roomGrain.OnGetRoom();
-        room.Name.Should().Be(name);
-    }
-
 
     [Test]
     public async Task ItCanRetrieveRooms()
@@ -55,8 +41,8 @@ public class RoomManagerGrainTests
         var firstRoomName = "firstRoomName";
         var secondRoomName = "secondRoomName";
 
-        await grain.OnCreateRoom(firstRoomName);
-        await grain.OnCreateRoom(secondRoomName);
+        await grain.OnCreateRoom(new Room {Id = Guid.NewGuid(), Name = firstRoomName});
+        await grain.OnCreateRoom(new Room {Id = Guid.NewGuid(), Name = secondRoomName});
 
         var rooms = await grain.OnGetAllRooms();
 

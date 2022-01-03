@@ -1,3 +1,4 @@
+using Application;
 using WebApi.Hubs;
 using WebApi.Orleans;
 using WebApi.Swagger;
@@ -10,6 +11,9 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(config => { config.CustomOperationIds(OperationIdSchema.GetOperationIdSchema); });
+
+// TODO: extract to AddApplication();
+builder.Services.AddSingleton<IUserService, UserService>();
 
 builder.Services.AddOrleansClient(configuration);
 

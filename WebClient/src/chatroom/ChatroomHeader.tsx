@@ -1,12 +1,14 @@
 import { ArrowBackIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import {
     Flex,
-    FlexProps, IconButton, Popover,
+    FlexProps,
+    IconButton,
+    Popover,
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
     PopoverHeader,
-    PopoverTrigger
+    PopoverTrigger,
 } from '@chakra-ui/react';
 import { TicHeading } from '../common/TicHeading';
 

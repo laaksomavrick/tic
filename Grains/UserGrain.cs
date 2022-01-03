@@ -1,5 +1,6 @@
 using Domain;
 using GrainInterfaces;
+using Grains.Common.Exceptions;
 using Orleans;
 using Orleans.Runtime;
 
@@ -16,6 +17,10 @@ public class UserGrain : Grain, IUser
 
     public Task<User> OnGetUser()
     {
+        var exists = _user.RecordExists;
+
+        if (exists == false) throw new NotFoundException(nameof(User), this.GetPrimaryKey());
+
         var user = _user.State;
         return Task.FromResult(user);
     }

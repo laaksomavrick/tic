@@ -23,15 +23,17 @@ public class RoomController : ApiController
     [HttpPost]
     public async Task<GetRoomVm> Create([FromBody] CreateRoomDto createRoomDto)
     {
-        var name = createRoomDto.Name;
-        var grain = _client.GetRoomManagerSingleton();
-        var room = await grain.OnCreateRoom(name);
-
-        return new GetRoomVm
-        {
-            Id = room.Id,
-            Username = room.Name
-        };
+        // TODO: service
+        // var name = createRoomDto.Name;
+        // var grain = _client.GetRoomManagerSingleton();
+        // var room = await grain.OnCreateRoom(name);
+        //
+        // return new GetRoomVm
+        // {
+        //     Id = room.Id,
+        //     Username = room.Name
+        // };
+        return null;
     }
 
     [HttpGet]

@@ -1,7 +1,7 @@
 import { Grid } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useRooms } from '../RoomProvider';
+import { useRooms } from '../RoomContext';
 import { ChatroomActions } from './ChatroomActions';
 import { ChatroomHeader } from './ChatroomHeader';
 import { ChatroomMessages } from './ChatroomMessages';

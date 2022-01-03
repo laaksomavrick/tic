@@ -5,7 +5,7 @@ namespace GrainInterfaces;
 
 public interface IRoomManager : IGrainWithGuidKey
 {
-    Task<Room> OnCreateRoom(string name);
+    Task<Room> OnCreateRoom(Room room);
 
     Task<List<Room>> OnGetAllRooms();
 }
