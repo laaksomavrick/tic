@@ -1,8 +1,11 @@
 import { Flex, Spinner } from '@chakra-ui/react';
 import { useUser } from '../user/UserContext';
+import { useErrorToast } from './useErrorToast';
 
 export const LoadingMask: React.FC = ({ children }) => {
-    const { loading } = useUser();
+    const { loading, error } = useUser();
+
+    useErrorToast(error);
 
     if (loading === false) {
         return <>{children}</>;
