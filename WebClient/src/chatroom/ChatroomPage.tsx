@@ -8,7 +8,7 @@ import { ChatroomMessages } from './ChatroomMessages';
 
 export const ChatroomPage: React.FC = () => {
     const { roomId } = useParams();
-    const { rooms } = useRooms();
+    const [state] = useRooms();
     const navigate = useNavigate();
 
     const onClickBackButton = useCallback(() => {
@@ -20,6 +20,7 @@ export const ChatroomPage: React.FC = () => {
     }
 
     // TODO: not great if many rooms - can we pass via navigate as metadata?
+    const rooms = state.rooms;
     const room = rooms.find((room) => room.id === roomId);
 
     if (room == null) {

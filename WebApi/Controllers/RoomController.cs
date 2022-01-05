@@ -36,7 +36,7 @@ public class RoomController : ApiController
         return new GetRoomVm
         {
             Id = room.Id,
-            Username = room.Name
+            Name = room.Name
         };
     }
 
@@ -48,7 +48,7 @@ public class RoomController : ApiController
         var roomVms = users.Select(x => new GetRoomVm
         {
             Id = x.Id,
-            Username = x.Name
+            Name = x.Name
         });
 
         return roomVms;

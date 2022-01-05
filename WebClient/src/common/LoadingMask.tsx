@@ -1,5 +1,6 @@
 import { Flex, Spinner } from '@chakra-ui/react';
 import { useUser } from '../user/UserContext';
+import { TicSpinner } from './TicSpinner';
 import { useErrorToast } from './useErrorToast';
 
 export const LoadingMask: React.FC = ({ children }) => {
@@ -24,13 +25,7 @@ export const LoadingMask: React.FC = ({ children }) => {
             alignItems="center"
             justifyContent="center"
         >
-            <Spinner
-                aria-label="loading"
-                color="purple.500"
-                size="xl"
-                emptyColor="gray.200"
-                thickness="6px"
-            />
+            <TicSpinner />
         </Flex>
     );
 };
