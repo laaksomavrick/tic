@@ -1,3 +1,4 @@
+using Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Orleans;
@@ -12,28 +13,31 @@ public class RoomController : ApiController
 {
     private readonly IClusterClient _client;
     private readonly IHubContext<RoomsHub> _roomsHubContext;
+    private readonly IRoomService _roomService;
 
 
-    public RoomController(IClusterClient client, IHubContext<RoomsHub> roomsHubContext)
+    public RoomController(IClusterClient client, IHubContext<RoomsHub> roomsHubContext, IRoomService roomService)
     {
         _client = client;
         _roomsHubContext = roomsHubContext;
+        _roomService = roomService;
     }
 
     [HttpPost]
     public async Task<GetRoomVm> Create([FromBody] CreateRoomDto createRoomDto)
     {
-        // TODO: service
-        // var name = createRoomDto.Name;
-        // var grain = _client.GetRoomManagerSingleton();
-        // var room = await grain.OnCreateRoom(name);
-        //
-        // return new GetRoomVm
-        // {
-        //     Id = room.Id,
-        //     Username = room.Name
-        // };
-        return null;
+        var name = createRoomDto.Name;
+        var room = _roomService.CreateRoom(name);
+
+        var grain = _client.GetRoomGrain(room.Id);
+        
+        await grain.OnCreateRoom(room);
+        
+        return new GetRoomVm
+        {
+            Id = room.Id,
+            Username = room.Name
+        };
     }
 
     [HttpGet]
