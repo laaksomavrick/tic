@@ -1,7 +1,6 @@
-import { ToastId, useToast } from "@chakra-ui/react";
-import { error } from "console";
-import { useState, useEffect } from "react";
-import { GetDataError } from "restful-react";
+import { ToastId, useToast } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { GetDataError } from 'restful-react';
 
 export const useErrorToast = (error: GetDataError<unknown> | null) => {
     const [toastId, setToastId] = useState<ToastId | undefined>(undefined);
@@ -19,5 +18,4 @@ export const useErrorToast = (error: GetDataError<unknown> | null) => {
             setToastId(toastId);
         }
     }, [error, toast, toastId, setToastId]);
-
-}
+};

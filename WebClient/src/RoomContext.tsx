@@ -15,26 +15,30 @@ export const SET_ERROR = 'SET_ERROR';
 export const CREATE_ROOM = 'CREATE_ROOM';
 
 type SetRoomsAction = {
-    type: typeof SET_ROOMS,
+    type: typeof SET_ROOMS;
     rooms: GetRoomVm[];
-}
+};
 
 type SetLoadingAction = {
-    type: typeof SET_LOADING,
+    type: typeof SET_LOADING;
     loading: boolean;
-}
+};
 
 type SetErrorAction = {
-    type: typeof SET_ERROR,
+    type: typeof SET_ERROR;
     error: GetDataError<unknown> | null;
-}
+};
 
 type CreateRoomAction = {
-    type: typeof CREATE_ROOM,
+    type: typeof CREATE_ROOM;
     room: GetRoomVm;
-}
+};
 
-export type RoomAction = SetRoomsAction | SetLoadingAction | SetErrorAction | CreateRoomAction;
+export type RoomAction =
+    | SetRoomsAction
+    | SetLoadingAction
+    | SetErrorAction
+    | CreateRoomAction;
 
 const reducer = (state: RoomState, action: RoomAction): RoomState => {
     switch (action.type) {
@@ -55,17 +59,15 @@ const reducer = (state: RoomState, action: RoomAction): RoomState => {
     }
 };
 
-const initialRoomState =
-{
+const initialRoomState = {
     rooms: [],
     loading: false,
     error: null,
-}
+};
 
-export const RoomContext = createContext<[RoomState, React.Dispatch<RoomAction>]>([
-    initialRoomState,
-    () => { },
-]);
+export const RoomContext = createContext<
+    [RoomState, React.Dispatch<RoomAction>]
+>([initialRoomState, () => {}]);
 
 export const useRooms = () => useContext(RoomContext);
 
@@ -91,8 +93,9 @@ export const RoomProvider: React.FC = ({ children }) => {
         }
     }, [data]);
 
-
     return (
-        <RoomContext.Provider value={[state, dispatch]}>{children}</RoomContext.Provider>
+        <RoomContext.Provider value={[state, dispatch]}>
+            {children}
+        </RoomContext.Provider>
     );
 };

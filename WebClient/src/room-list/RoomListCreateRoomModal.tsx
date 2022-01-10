@@ -32,7 +32,7 @@ export const RoomListCreateRoomModal: React.FC<
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <Formik initialValues={{ name: '' }} onSubmit={onSubmit}>
-                {({ isValid, isSubmitting }) => (
+                {({ isValid }) => (
                     <CreateRoomModalContent
                         onClose={onClose}
                         isValid={isValid}
@@ -90,6 +90,7 @@ const CreateRoomModalContent: React.FC<{
                     Close
                 </Button>
                 <Button
+                    aria-label="CreateButton"
                     variant="solid"
                     colorScheme="purple"
                     onClick={submitForm}

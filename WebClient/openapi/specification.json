@@ -466,7 +466,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "username": {
+          "name": {
             "type": "string",
             "nullable": true
           }

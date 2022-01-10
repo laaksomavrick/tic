@@ -1,9 +1,8 @@
-import React from 'react';
 import {
     BrowserRouter as Router,
     Navigate,
     Route,
-    Routes,
+    Routes
 } from 'react-router-dom';
 import { ChatroomPage } from './chatroom/ChatroomPage';
 import { LoadingMask } from './common/LoadingMask';

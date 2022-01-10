@@ -1,4 +1,4 @@
-import { Flex, Spinner } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { useUser } from '../user/UserContext';
 import { TicSpinner } from './TicSpinner';
 import { useErrorToast } from './useErrorToast';

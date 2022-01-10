@@ -1,9 +1,10 @@
 import { FlexProps } from '@chakra-ui/react';
+import { GetRoomVm } from '../api/hooks';
 import { TicText } from '../common/TicText';
 import { RoomListButton } from './RoomListButton';
 
 export interface RoomListItemProps extends FlexProps {
-    room: any; // TODO
+    room: GetRoomVm; 
     onClickRoom: (roomId: string) => void;
 }
 
@@ -12,7 +13,7 @@ export const RoomListItem: React.FC<RoomListItemProps> = ({
     onClickRoom,
     ...rest
 }) => {
-    const id = room.id;
+    const id = room.id || '';
     return (
         <RoomListButton
             data-testid={`RoomListItem-${id}`}

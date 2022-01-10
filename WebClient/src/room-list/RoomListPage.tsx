@@ -1,4 +1,4 @@
-import { Flex, Grid, Spinner, useDisclosure } from '@chakra-ui/react';
+import { Flex, Grid, useDisclosure } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '../api/ApiContext';
@@ -22,7 +22,11 @@ export const RoomListPage: React.FC = () => {
 
     const { rooms, loading: roomsLoading, error: roomsError } = state;
 
-    const {mutate, loading: createRoomLoading, error: createRoomError } = useRoomCreate({});
+    const {
+        mutate,
+        loading: createRoomLoading,
+        error: createRoomError,
+    } = useRoomCreate({});
 
     useErrorToast(roomsError);
     useErrorToast(createRoomError);
@@ -35,14 +39,14 @@ export const RoomListPage: React.FC = () => {
     );
 
     const onCreateRoom = async (name: string) => {
-        const response = await mutate({ name })
+        const response = await mutate({ name });
         dispatch({ type: CREATE_ROOM, room: response });
         onClose();
-    }
+    };
 
     return (
         <>
-            <Flex direction="column" h="100%">
+            <Flex direction="column" h="100%" data-testid="RoomListPage">
                 <Flex
                     justifyContent="space-between"
                     alignItems="center"
@@ -51,25 +55,39 @@ export const RoomListPage: React.FC = () => {
                     <TicHeading>Rooms</TicHeading>
                     <TicText fontWeight="medium">{user?.username}</TicText>
                 </Flex>
-                <RoomListGrid isLoading={roomsLoading} rooms={rooms} onOpen={onOpen} onClickRoom={onClickRoom}/>
+                <RoomListGrid
+                    isLoading={roomsLoading}
+                    rooms={rooms}
+                    onOpen={onOpen}
+                    onClickRoom={onClickRoom}
+                />
             </Flex>
-            <RoomListCreateRoomModal isOpen={isOpen} onClose={onClose} onCreateRoom={onCreateRoom} isLoading={createRoomLoading} />
+            <RoomListCreateRoomModal
+                isOpen={isOpen}
+                onClose={onClose}
+                onCreateRoom={onCreateRoom}
+                isLoading={createRoomLoading}
+            />
         </>
     );
 };
 
-const RoomListGrid: React.FC<{isLoading: boolean, rooms: GetRoomVm[], onOpen: () => void, onClickRoom: (roomId: string) => void}> = ({ isLoading, rooms, onOpen, onClickRoom }) => {
-
+const RoomListGrid: React.FC<{
+    isLoading: boolean;
+    rooms: GetRoomVm[];
+    onOpen: () => void;
+    onClickRoom: (roomId: string) => void;
+}> = ({ isLoading, rooms, onOpen, onClickRoom }) => {
     if (isLoading) {
-
-        return <Flex h="100%" w="100%" alignItems="center" justifyContent="center"><TicSpinner /></Flex>;
+        return (
+            <Flex h="100%" w="100%" alignItems="center" justifyContent="center">
+                <TicSpinner />
+            </Flex>
+        );
     }
 
     return (
-        <Grid
-            templateColumns={['1fr', '1fr 1fr', '1fr 1fr 1fr']}
-            gridGap="2"
-        >
+        <Grid templateColumns={['1fr', '1fr 1fr', '1fr 1fr 1fr']} gridGap="2">
             <RoomListCreateRoomButton onClick={onOpen} />
             {rooms.map((room) => (
                 <RoomListItem
@@ -79,5 +97,5 @@ const RoomListGrid: React.FC<{isLoading: boolean, rooms: GetRoomVm[], onOpen: ()
                 />
             ))}
         </Grid>
-    )
-}
+    );
+};
