@@ -45,7 +45,7 @@ export interface GetMessageVm {
 
 export interface GetRoomVm {
     id?: string;
-    username?: string | null;
+    name?: string | null;
 }
 
 export interface GetUserVm {

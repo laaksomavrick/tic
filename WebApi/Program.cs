@@ -1,4 +1,5 @@
 using Application;
+using GrainInterfaces;
 using WebApi.Hubs;
 using WebApi.Orleans;
 using WebApi.Swagger;
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen(config => { config.CustomOperationIds(OperationId
 
 // TODO: extract to AddApplication();
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IRoomService, RoomService>();
 
 builder.Services.AddOrleansClient(configuration);
 

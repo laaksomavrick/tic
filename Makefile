@@ -9,3 +9,11 @@ run-silo:
 .PHONY: run-client
 run-client:
 	@yarn --cwd WebClient start
+
+.PHONY: test-backend
+test-backend:
+	@dotnet test 
+
+.PHONY: test-client
+test-client:
+	@yarn --cwd WebClient test
