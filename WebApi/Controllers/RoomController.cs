@@ -96,8 +96,6 @@ public class RoomController : ApiController
         var grain = _client.GetRoomGrain(roomId);
         var room = await grain.OnGetRoom();
 
-        // TODO: what if room does not exist?
-
         await _roomsHubContext.Groups.AddToGroupAsync(connectionId, roomId.ToString());
         return NoContent();
     }
