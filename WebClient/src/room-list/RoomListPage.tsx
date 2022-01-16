@@ -28,8 +28,9 @@ export const RoomListPage: React.FC = () => {
         error: createRoomError,
     } = useRoomCreate({});
 
-    useErrorToast(roomsError);
-    useErrorToast(createRoomError);
+    const err = createRoomError || roomsError;
+
+    useErrorToast(err);
 
     const onClickRoom = useCallback(
         (roomId: string) => {

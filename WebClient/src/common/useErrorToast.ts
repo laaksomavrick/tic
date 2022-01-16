@@ -13,9 +13,14 @@ export const useErrorToast = (error: GetDataError<unknown> | null) => {
     });
 
     useEffect(() => {
-        if (error && toastId == null) {
-            const toastId = toast();
-            setToastId(toastId);
+        if (error == null) {
+            return;
         }
-    }, [error, toast, toastId, setToastId]);
+
+        if (toastId != null) {
+            return;
+        }
+
+        setToastId(toast());
+    }, [error, toastId, setToastId, toast]);
 };

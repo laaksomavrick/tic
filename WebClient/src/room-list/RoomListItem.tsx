@@ -4,7 +4,7 @@ import { TicText } from '../common/TicText';
 import { RoomListButton } from './RoomListButton';
 
 export interface RoomListItemProps extends FlexProps {
-    room: GetRoomVm; 
+    room: GetRoomVm;
     onClickRoom: (roomId: string) => void;
 }
 
