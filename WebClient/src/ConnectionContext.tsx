@@ -33,6 +33,7 @@ export const ConnectionProvider: React.FC = ({ children }) => {
             try {
                 const connection = new signalR.HubConnectionBuilder()
                     .withUrl('https://localhost:7009/hub') // TODO: read from env
+                    .withAutomaticReconnect()
                     .configureLogging(signalR.LogLevel.Information)
                     .build();
 

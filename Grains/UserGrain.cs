@@ -9,10 +9,16 @@ namespace Grains;
 public class UserGrain : Grain, IUser
 {
     private readonly IPersistentState<User> _user;
+    // private readonly IPersistentState<List<string>> _connectionIds; 
 
-    public UserGrain([PersistentState("user", "ticStorage")] IPersistentState<User> user)
+    private List<string> _connectionIds = new List<string>();
+    public UserGrain(
+        [PersistentState("user", "ticStorage")] IPersistentState<User> user
+        // [PersistentState("connectionIds", "ticStorage")] IPersistentState<List<string>> connectionIds
+        )
     {
         _user = user;
+        // _connectionIds = connectionIds;
     }
 
     public Task<User> OnGetUser()
@@ -29,5 +35,22 @@ public class UserGrain : Grain, IUser
     {
         _user.State = user;
         await _user.WriteStateAsync();
+    }
+
+    public Task OnConnectUser(string connectionId)
+    {
+        _connectionIds.Add(connectionId);
+        return Task.CompletedTask;
+    }
+    
+    public Task OnDisconnectUser(string connectionId)
+    {
+        _connectionIds.Remove(connectionId);
+        return Task.CompletedTask;
+    }
+
+    public Task<List<string>> OnGetConnectionIds()
+    {
+        return Task.FromResult(_connectionIds);
     }
 }

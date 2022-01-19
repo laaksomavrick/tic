@@ -1,10 +1,15 @@
 import { Flex } from '@chakra-ui/react';
+import { useConnection } from '../ConnectionContext';
 import { useUser } from '../user/UserContext';
 import { TicSpinner } from './TicSpinner';
 import { useErrorToast } from './useErrorToast';
 
 export const LoadingMask: React.FC = ({ children }) => {
-    const { loading, error } = useUser();
+    const { loading: userLoading, error: userError } = useUser();
+    const { loading: connectionLoading, error: connectionError } = useConnection();
+
+    const loading = userLoading || connectionLoading;
+    const error = userError || connectionError;
 
     useErrorToast(error);
 

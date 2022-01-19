@@ -3,6 +3,7 @@ import { GetDataError } from 'restful-react';
 import { GetUserVm } from '../api/hooks';
 import { useApi } from '../api/ApiContext';
 import { useLocalStorage } from '../LocalStorageContext';
+import { useConnection } from '../ConnectionContext';
 
 export const USER_DATA = 'USER_DATA';
 
@@ -24,12 +25,27 @@ export const UserProvider: React.FC = ({ children }) => {
     const { useUserCreate } = useApi();
     const { getItem, setItem } = useLocalStorage();
     const { mutate, loading, error } = useUserCreate({});
+    const { connection } = useConnection();
 
     const [state, setState] = useState<UserState>({
         user: null,
         loading: true,
         error: null,
     });
+
+    useEffect(() => {
+        if (connection == null)
+        {
+            return;
+        }
+        if (state.user == null)
+        {
+            return;
+        }
+
+        connection.send('OnRegisterUserConnectionAsync', state.user.id);
+
+    }, [connection])
 
     useEffect(() => {
         (async () => {
