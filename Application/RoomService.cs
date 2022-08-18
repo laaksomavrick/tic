@@ -12,7 +12,7 @@ public class RoomService : IRoomService
 {
     public Room CreateRoom(string name)
     {
-        
+
         var id = Guid.NewGuid();
 
         var room = new Room()

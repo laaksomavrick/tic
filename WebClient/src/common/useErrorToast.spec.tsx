@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { useErrorToast } from './useErrorToast';
 
 const TestComponent: React.FC = () => {
@@ -14,9 +14,9 @@ const TestComponent: React.FC = () => {
 
 describe('useErrorToast', () => {
     it('displays an error toast', () => {
-        const { getByText } = render(<TestComponent />);
+        render(<TestComponent />);
 
-        const errorTitle = getByText('Oops! Something went wrong');
+        const errorTitle = screen.getByText('Oops! Something went wrong');
 
         expect(errorTitle).toBeInTheDocument();
     });

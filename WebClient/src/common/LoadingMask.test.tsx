@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { UserContext } from '../user/UserContext';
 import { LoadingMask } from './LoadingMask';
 
 describe('LoadingMask', () => {
     it('shows a loading spinner', () => {
-        const { getByTestId } = render(
+        render(
             <UserContext.Provider
                 value={{ user: null, loading: true, error: null }}
             >
@@ -12,13 +12,13 @@ describe('LoadingMask', () => {
             </UserContext.Provider>,
         );
 
-        const mask = getByTestId('LoadingMask');
+        const mask = screen.getByTestId('LoadingMask');
 
         expect(mask).toBeInTheDocument();
     });
 
     it('shows children', () => {
-        const { getByTestId } = render(
+        render(
             <UserContext.Provider
                 value={{ user: null, loading: false, error: null }}
             >
@@ -28,7 +28,7 @@ describe('LoadingMask', () => {
             </UserContext.Provider>,
         );
 
-        const child = getByTestId('child');
+        const child = screen.getByTestId('child');
 
         expect(child).toBeInTheDocument();
     });

@@ -1,11 +1,11 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ChatroomActions } from './ChatroomActions';
 
 describe('ChatroomActions', () => {
     it('can render', () => {
-        const { getByTestId } = render(<ChatroomActions />);
+        render(<ChatroomActions />);
 
-        const actions = getByTestId('ChatroomActions');
+        const actions = screen.getByTestId('ChatroomActions');
 
         expect(actions).toBeInTheDocument();
     });
