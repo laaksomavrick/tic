@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ApiContext, ApiState } from '../api/ApiContext';
 import { LocalStorageContext } from '../LocalStorageContext';
 import { UserProvider, USER_DATA, useUser } from './UserContext';
@@ -63,10 +63,10 @@ describe('UserContext', () => {
         getItemMock.mockImplementation(() => null);
         mockMutate.mockImplementation(() => Promise.resolve({ id, username }));
 
-        const { findByTestId } = render(getRender());
+        render(getRender());
 
-        const userIdDiv = await findByTestId('userId');
-        const usernameDiv = await findByTestId('username');
+        const userIdDiv = await screen.findByTestId('userId');
+        const usernameDiv = await screen.findByTestId('username');
 
         expect(setItemMock).toHaveBeenCalledWith(
             USER_DATA,
@@ -82,10 +82,10 @@ describe('UserContext', () => {
         const username = 'username';
         getItemMock.mockImplementation(() => JSON.stringify({ id, username }));
 
-        const { findByTestId } = render(getRender());
+        render(getRender());
 
-        const userIdDiv = await findByTestId('userId');
-        const usernameDiv = await findByTestId('username');
+        const userIdDiv = await screen.findByTestId('userId');
+        const usernameDiv = await screen.findByTestId('username');
 
         expect(getItemMock).toHaveBeenCalled();
         expect(setItemMock).not.toHaveBeenCalled();

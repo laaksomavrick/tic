@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { RoomListCreateRoomModal } from './RoomListCreateRoomModal';
 
 describe('RoomListCreteRoomModal', () => {
@@ -7,7 +7,7 @@ describe('RoomListCreteRoomModal', () => {
     const onCreateRoomMock = jest.fn();
 
     it('validates room name input', async () => {
-        const { getByRole, findByText } = render(
+        render(
             <ChakraProvider>
                 <RoomListCreateRoomModal
                     isOpen={true}
@@ -18,18 +18,20 @@ describe('RoomListCreteRoomModal', () => {
             </ChakraProvider>,
         );
 
-        const createButon = getByRole('button', { name: 'CreateButton' });
+        const createButton = screen.getByRole('button', {
+            name: 'CreateButton',
+        });
 
-        fireEvent.click(createButon);
+        fireEvent.click(createButton);
 
-        const errorMessage = await findByText('Name is required');
+        const errorMessage = await screen.findByText('Name is required');
 
         expect(errorMessage).toBeInTheDocument();
     });
 
     it('creates a room', async () => {
         const roomName = 'foo';
-        const { getByRole, getByLabelText } = render(
+        render(
             <ChakraProvider>
                 <RoomListCreateRoomModal
                     isOpen={true}
@@ -40,11 +42,13 @@ describe('RoomListCreteRoomModal', () => {
             </ChakraProvider>,
         );
 
-        const input = getByLabelText('Name');
-        const createButon = getByRole('button', { name: 'CreateButton' });
+        const input = screen.getByLabelText('Name');
+        const createButton = screen.getByRole('button', {
+            name: 'CreateButton',
+        });
 
         fireEvent.change(input, { target: { value: roomName } });
-        fireEvent.click(createButon);
+        fireEvent.click(createButton);
 
         await waitFor(() => {
             expect(onCreateRoomMock).toHaveBeenCalledWith(roomName);

@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { ApiContext, ApiState } from '../api/ApiContext';
 import {
@@ -91,26 +91,26 @@ describe('RoomListPage', () => {
     });
 
     it('renders', () => {
-        const { getByTestId } = render(getComponent());
+        render(getComponent());
 
-        const roomListPage = getByTestId('RoomListPage');
+        const roomListPage = screen.getByTestId('RoomListPage');
 
         expect(roomListPage).toBeInTheDocument();
     });
 
     it("displays the user's name", async () => {
-        const { findByText } = render(getComponent());
+        render(getComponent());
 
-        const username = await findByText(user.username);
+        const username = await screen.findByText(user.username);
 
         expect(username).toBeInTheDocument();
     });
 
     it('displays a listing of rooms', async () => {
-        const { findByText } = render(getComponent());
+        render(getComponent());
 
-        const firstRoom = await findByText(rooms[0].name);
-        const secondRoom = await findByText(rooms[1].name);
+        const firstRoom = await screen.findByText(rooms[0].name);
+        const secondRoom = await screen.findByText(rooms[1].name);
 
         expect(firstRoom).toBeInTheDocument();
         expect(secondRoom).toBeInTheDocument();
@@ -129,9 +129,9 @@ describe('RoomListPage', () => {
             error,
         }));
 
-        const { findByText } = render(getComponent());
+        render(getComponent());
 
-        const errorToast = await findByText(errorText);
+        const errorToast = await screen.findByText(errorText);
 
         expect(errorToast).toBeInTheDocument();
     });
@@ -151,17 +151,17 @@ describe('RoomListPage', () => {
             error,
         }));
 
-        const { findByText } = render(getComponent());
+        render(getComponent());
 
-        const errorToast = await findByText(errorText);
+        const errorToast = await screen.findByText(errorText);
 
         expect(errorToast).toBeInTheDocument();
     });
 
     it('can redirect to a room', async () => {
-        const { getByTestId } = render(getComponent());
+        render(getComponent());
 
-        const button = getByTestId('RoomListItem-1');
+        const button = screen.getByTestId('RoomListItem-1');
 
         fireEvent.click(button);
 
@@ -183,20 +183,20 @@ describe('RoomListPage', () => {
             error: null,
         }));
 
-        const { getByTestId, getByLabelText, findByTestId, getByRole } = render(
-            getComponent(),
-        );
+        render(getComponent());
 
-        const createRoomButton = getByTestId('RoomListCreateRoomButton');
+        const createRoomButton = screen.getByTestId('RoomListCreateRoomButton');
         fireEvent.click(createRoomButton);
 
-        const createRoomInput = getByLabelText('Name');
-        const createButon = getByRole('button', { name: 'CreateButton' });
+        const createRoomInput = screen.getByLabelText('Name');
+        const createButon = screen.getByRole('button', {
+            name: 'CreateButton',
+        });
 
         fireEvent.change(createRoomInput, { target: { value: roomName } });
         fireEvent.click(createButon);
 
-        const newRoom = await findByTestId(`RoomListItem-${roomId}`);
+        const newRoom = await screen.findByTestId(`RoomListItem-${roomId}`);
 
         expect(newRoom).toBeInTheDocument();
     });

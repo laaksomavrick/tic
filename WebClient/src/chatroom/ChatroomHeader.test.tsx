@@ -1,24 +1,22 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { ChatroomHeader } from './ChatroomHeader';
 
 describe('ChatroomHeader', () => {
     it('can render', () => {
-        const { getByTestId } = render(
-            <ChatroomHeader name="foo" onClickBackButton={jest.fn()} />,
-        );
+        render(<ChatroomHeader name="foo" onClickBackButton={jest.fn()} />);
 
-        const header = getByTestId('ChatroomHeader');
+        const header = screen.getByTestId('ChatroomHeader');
 
         expect(header).toBeInTheDocument();
     });
 
     it('displays the room name', () => {
         const roomName = 'roomName';
-        const { getByText } = render(
+        render(
             <ChatroomHeader name={roomName} onClickBackButton={jest.fn()} />,
         );
 
-        const roomNameText = getByText(roomName);
+        const roomNameText = screen.getByText(roomName);
 
         expect(roomNameText).toBeInTheDocument();
     });
@@ -26,10 +24,10 @@ describe('ChatroomHeader', () => {
     it('supports a user clicking the back button', () => {
         const backButtonMock = jest.fn();
 
-        const { getByRole } = render(
+        render(
             <ChatroomHeader name="foo" onClickBackButton={backButtonMock} />,
         );
-        const backButton = getByRole('button', { name: 'back-button' });
+        const backButton = screen.getByRole('button', { name: 'back-button' });
 
         fireEvent.click(backButton);
 
@@ -37,16 +35,14 @@ describe('ChatroomHeader', () => {
     });
 
     it('supports a user seeing the active users', async () => {
-        const { getByText, getByRole } = render(
-            <ChatroomHeader name="foo" onClickBackButton={jest.fn()} />,
-        );
-        const usersPopoverButton = getByRole('button', {
+        render(<ChatroomHeader name="foo" onClickBackButton={jest.fn()} />);
+        const usersPopoverButton = screen.getByRole('button', {
             name: 'users-button',
         });
 
         fireEvent.click(usersPopoverButton);
 
-        const usersPopoverHeader = getByText('Users');
+        const usersPopoverHeader = screen.getByText('Users');
         expect(usersPopoverHeader).toBeInTheDocument();
         await waitFor(() => {
             expect(usersPopoverHeader).toBeVisible();

@@ -30,9 +30,9 @@ public class RoomController : ApiController
         var room = _roomService.CreateRoom(name);
 
         var grain = _client.GetRoomGrain(room.Id);
-        
+
         await grain.OnCreateRoom(room);
-        
+
         return new GetRoomVm
         {
             Id = room.Id,

@@ -26,8 +26,8 @@ public class RoomManagerGrainTests
         var firstRoomName = "firstRoomName";
         var secondRoomName = "secondRoomName";
 
-        var firstRoom = await grain.OnCreateRoom(new Room {Id = Guid.NewGuid(), Name = firstRoomName});
-        var secondRoom = await grain.OnCreateRoom(new Room {Id = Guid.NewGuid(), Name = secondRoomName});
+        var firstRoom = await grain.OnCreateRoom(new Room { Id = Guid.NewGuid(), Name = firstRoomName });
+        var secondRoom = await grain.OnCreateRoom(new Room { Id = Guid.NewGuid(), Name = secondRoomName });
 
         firstRoom.Name.Should().Be(firstRoomName);
         secondRoom.Name.Should().Be(secondRoomName);
@@ -41,8 +41,8 @@ public class RoomManagerGrainTests
         var firstRoomName = "firstRoomName";
         var secondRoomName = "secondRoomName";
 
-        await grain.OnCreateRoom(new Room {Id = Guid.NewGuid(), Name = firstRoomName});
-        await grain.OnCreateRoom(new Room {Id = Guid.NewGuid(), Name = secondRoomName});
+        await grain.OnCreateRoom(new Room { Id = Guid.NewGuid(), Name = firstRoomName });
+        await grain.OnCreateRoom(new Room { Id = Guid.NewGuid(), Name = secondRoomName });
 
         var rooms = await grain.OnGetAllRooms();
 
