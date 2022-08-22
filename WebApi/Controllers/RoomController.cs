@@ -94,7 +94,7 @@ public class RoomController : ApiController
         var connectionId = joinRoomDto.ConnectionId;
 
         var grain = _client.GetRoomGrain(roomId);
-        var room = await grain.OnGetRoom();
+        await grain.OnGetRoom();
 
         await _roomsHubContext.Groups.AddToGroupAsync(connectionId, roomId.ToString());
         return NoContent();
