@@ -5,11 +5,30 @@ import { useRooms } from '../RoomContext';
 import { ChatroomActions } from './ChatroomActions';
 import { ChatroomHeader } from './ChatroomHeader';
 import { ChatroomMessages } from './ChatroomMessages';
+import { useApi } from '../api/ApiContext';
+import { useUser } from '../user/UserContext';
 
 export const ChatroomPage: React.FC = () => {
+    const { useMessageCreate } = useApi();
     const { roomId } = useParams();
-    const [state] = useRooms();
+    const { user } = useUser();
+    const [roomState] = useRooms();
     const navigate = useNavigate();
+
+    const { mutate: createMessage, loading, error } = useMessageCreate({});
+
+    const onClickMessageCreate = async (message: string): Promise<void> => {
+        const userId = user?.id;
+
+        if (userId == null || roomId == null) {
+            console.error('onClickMessageCreate userId or roomId null');
+            return;
+        }
+
+        const response = await createMessage({ userId, roomId, message });
+
+        console.log(response);
+    };
 
     const onClickBackButton = useCallback(() => {
         navigate('/');
@@ -20,7 +39,7 @@ export const ChatroomPage: React.FC = () => {
     }
 
     // TODO: not great if many rooms - can we pass via navigate as metadata?
-    const rooms = state.rooms;
+    const rooms = roomState.rooms;
     const room = rooms.find((room) => room.id === roomId);
 
     if (room == null) {
@@ -38,7 +57,7 @@ export const ChatroomPage: React.FC = () => {
                 onClickBackButton={onClickBackButton}
             />
             <ChatroomMessages />
-            <ChatroomActions />
+            <ChatroomActions onClickMessageCreate={onClickMessageCreate} />
         </Grid>
     );
 };

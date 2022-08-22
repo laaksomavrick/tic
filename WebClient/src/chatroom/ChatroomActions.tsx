@@ -2,12 +2,29 @@ import { StarIcon, SettingsIcon } from '@chakra-ui/icons';
 import { Button, Flex, FlexProps, Input } from '@chakra-ui/react';
 import { TIC_BACKGROUND_COLOR_AND_TEXT } from '../common/common-styles';
 import { TicText } from '../common/TicText';
+import React, { ChangeEvent, FC, useState } from 'react';
 
-export interface ChatroomActionsProps extends FlexProps {}
+export interface ChatroomActionsProps extends FlexProps {
+    onClickMessageCreate: (message: string) => Promise<void>;
+}
 
-export const ChatroomActions: React.FC<ChatroomActionsProps> = ({
+export const ChatroomActions: FC<ChatroomActionsProps> = ({
+    onClickMessageCreate,
     ...rest
 }) => {
+    const [message, setMessage] = useState('');
+
+    const onSubmitMessage = async () => {
+        await onClickMessageCreate(message);
+    };
+
+    const onChangeMessageInput = (e: ChangeEvent<HTMLInputElement>) => {
+        const message = e.target?.value || '';
+        setMessage(message);
+    };
+
+    const isChatButtonDisabled = message === '';
+
     return (
         <Flex data-testid="ChatroomActions" direction="column" {...rest}>
             <Input
@@ -17,6 +34,7 @@ export const ChatroomActions: React.FC<ChatroomActionsProps> = ({
                 placeholder="Send a message"
                 bg="gray.200"
                 focusBorderColor="purple.400"
+                onChange={onChangeMessageInput}
             ></Input>
             <Flex h="100%" w="100%" minH="40px" alignItems="center">
                 <Flex alignItems="center" mr="auto">
@@ -28,6 +46,8 @@ export const ChatroomActions: React.FC<ChatroomActionsProps> = ({
                 <Button
                     {...TIC_BACKGROUND_COLOR_AND_TEXT}
                     _hover={{ background: 'purple.600' }}
+                    onClick={onSubmitMessage}
+                    isDisabled={isChatButtonDisabled}
                 >
                     Chat
                 </Button>

@@ -3,7 +3,7 @@ import { ChatroomActions } from './ChatroomActions';
 
 describe('ChatroomActions', () => {
     it('can render', () => {
-        render(<ChatroomActions />);
+        render(<ChatroomActions onClickMessageCreate={jest.fn()} />);
 
         const actions = screen.getByTestId('ChatroomActions');
 
