@@ -32,13 +32,14 @@ export const ConnectionProvider: React.FC = ({ children }) => {
             }
             try {
                 const connection = new signalR.HubConnectionBuilder()
-                    .withUrl('https://localhost:7009/hub') // TODO: read from env
+                    .withUrl('https://localhost:7009/chathub') // TODO: read from env
                     .configureLogging(signalR.LogLevel.Information)
                     .build();
 
                 await connection.start();
 
                 setConnection(connection);
+                console.log({ connection })
             } catch (e) {
                 console.error(e);
                 setError(true);

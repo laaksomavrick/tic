@@ -22,8 +22,10 @@ export const RoomListPage: React.FC = () => {
 
     const { rooms, loading: roomsLoading, error: roomsError } = state;
 
+    // TODO: leave all rooms on load of this page (i.e. we only want a user to belong to one room at a time for now...?)
+
     const {
-        mutate,
+        mutate: createRoom,
         loading: createRoomLoading,
         error: createRoomError,
     } = useRoomCreate({});
@@ -34,13 +36,14 @@ export const RoomListPage: React.FC = () => {
 
     const onClickRoom = useCallback(
         (roomId: string) => {
+            // TODO: joinRoom call
             navigate(`/rooms/${roomId}`);
         },
         [navigate],
     );
 
     const onCreateRoom = async (name: string) => {
-        const response = await mutate({ name });
+        const response = await createRoom({ name });
         dispatch({ type: CREATE_ROOM, room: response });
         onClose();
     };

@@ -7,6 +7,7 @@ import { ChatroomHeader } from './ChatroomHeader';
 import { ChatroomMessages } from './ChatroomMessages';
 import { useApi } from '../api/ApiContext';
 import { useUser } from '../user/UserContext';
+import { useConnection } from '../ConnectionContext';
 
 export const ChatroomPage: React.FC = () => {
     const { useMessageCreate } = useApi();
@@ -15,7 +16,14 @@ export const ChatroomPage: React.FC = () => {
     const [roomState] = useRooms();
     const navigate = useNavigate();
 
-    const { mutate: createMessage, loading, error } = useMessageCreate({});
+    const { connection } = useConnection();
+    const { mutate: createMessage, loading: createMessageLoading, error: createMessageError } = useMessageCreate({});
+
+    console.log('rerender')
+    connection?.on('ReceiveMessage', (content: any) => {
+        console.log('receivemessage', content);
+    });
+
 
     const onClickMessageCreate = async (message: string): Promise<void> => {
         const userId = user?.id;
@@ -27,7 +35,7 @@ export const ChatroomPage: React.FC = () => {
 
         const response = await createMessage({ userId, roomId, message });
 
-        console.log(response);
+        console.log('onClickMessageCreate', response);
     };
 
     const onClickBackButton = useCallback(() => {

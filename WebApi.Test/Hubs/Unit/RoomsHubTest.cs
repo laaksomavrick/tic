@@ -13,15 +13,15 @@ public class RoomsHubTest
     private Mock<IClusterClient> _clusterClientMock;
     private Mock<HubCallerContext> _hubContextMock;
 
-    private RoomsHub _roomsHub;
+    private ChatHub _chatHub;
 
     [SetUp]
     public void Setup()
     {
         _clusterClientMock = new Mock<IClusterClient>();
         _hubContextMock = new Mock<HubCallerContext>();
-        _roomsHub = new RoomsHub(_clusterClientMock.Object);
-        _roomsHub.Context = _hubContextMock.Object;
+        _chatHub = new ChatHub(_clusterClientMock.Object);
+        _chatHub.Context = _hubContextMock.Object;
     }
 
     [Test]
