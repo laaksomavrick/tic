@@ -1,5 +1,5 @@
 import { Flex, Grid } from '@chakra-ui/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useRooms } from '../RoomContext';
 import { ChatroomActions } from './ChatroomActions';
@@ -7,46 +7,28 @@ import { ChatroomHeader } from './ChatroomHeader';
 import { ChatroomMessages } from './ChatroomMessages';
 import { useApi } from '../api/ApiContext';
 import { useUser } from '../user/UserContext';
-import { useConnection } from '../ConnectionContext';
 import { TicSpinner } from '../common/TicSpinner';
+import { useJoinChatroom } from './useJoinChatroom';
 
 export const ChatroomPage: React.FC = () => {
-    const { useMessageCreate, useRoomJoinRoom } = useApi();
+    const { useMessageCreate } = useApi();
     const { roomId } = useParams();
     const { user } = useUser();
     const [roomState] = useRooms();
     const navigate = useNavigate();
 
-    const { connection } = useConnection();
+    // TODO: handle error, loading
     const { mutate: createMessage, loading: createMessageLoading, error: createMessageError } = useMessageCreate({});
-    const { mutate: joinRoom, loading: joinRoomLoading, error: joinRoomError } =  useRoomJoinRoom({ roomId: roomId || '' });
 
-    const [loaded, setLoaded] = useState(false);
-
-    const connectionId = connection?.connectionId;
-    const userId = user?.id || '';
 
     // TODO: handle dupes + extract into hook
-    console.log('rerender')
-    connection?.on('ReceiveMessage', (content: any) => {
-        console.log('receivemessage', content);
-    });
+    // console.log('rerender')
+    // connection?.on('ReceiveMessage', (content: any) => {
+    //     console.log('receivemessage', content);
+    // });
 
-    useEffect(() => {
-        if (joinRoomLoading) {
-            return;
-        }
-
-        if (loaded) {
-            return;
-        }
-
-        (async () => {
-            // @ts-ignore
-            await joinRoom({ connectionId, userId });
-            setLoaded(true);
-        })();
-    }, [roomId, connectionId, userId, joinRoomLoading, loaded])
+    // TODO: errorJoining
+    const { joined, error: errorJoining } = useJoinChatroom(roomId || '');
 
     const onClickMessageCreate = async (message: string): Promise<void> => {
         const userId = user?.id;
@@ -83,7 +65,7 @@ export const ChatroomPage: React.FC = () => {
             w="100%"
             gridTemplateRows={['min-content 1fr min-content']}
         >
-            {(!loaded || joinRoomLoading) ? (
+            {(!joined) ? (
                 <Flex justifyContent="center" alignItems="center" w="100%" h="100%">
                     <TicSpinner />
                 </Flex>
