@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { UserContext } from '../user/UserContext';
 import { LoadingMask } from './LoadingMask';
+import { ConnectionContext } from '../ConnectionContext';
 
 describe('LoadingMask', () => {
     it('shows a loading spinner', () => {
@@ -19,13 +20,18 @@ describe('LoadingMask', () => {
 
     it('shows children', () => {
         render(
-            <UserContext.Provider
-                value={{ user: null, loading: false, error: null }}
+            <ConnectionContext.Provider
+                value={{ connection: {}, loading: false, error: null } as any}
             >
-                <LoadingMask>
-                    <div data-testid="child"></div>
-                </LoadingMask>
-            </UserContext.Provider>,
+                <UserContext.Provider
+                    value={{ user: null, loading: false, error: null }}
+                >
+                    <LoadingMask>
+                        <div data-testid="child"></div>
+                    </LoadingMask>
+                </UserContext.Provider>
+                ,
+            </ConnectionContext.Provider>,
         );
 
         const child = screen.getByTestId('child');

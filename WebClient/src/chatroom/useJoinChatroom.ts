@@ -9,19 +9,18 @@ export const useJoinChatroom = (roomId: string) => {
     const { connection } = useConnection();
     const { useRoomJoinRoom } = useApi();
     const { mutate: joinRoom, error } = useRoomJoinRoom({ roomId });
+    // TODO: read user joined room state from GET user
     const [joined, setJoined] = useState(false);
 
     const connectionId = connection?.connectionId;
     const userId = user?.id || '';
 
-    useMountEffect(() => {
+    useMountEffect(async () => {
         if (joined) {
             return;
         }
-        (async () => {
-            await joinRoom({ connectionId, userId });
-            setJoined(true);
-        })();
+        await joinRoom({ connectionId, userId });
+        setJoined(true);
     });
 
     return { joined, error };

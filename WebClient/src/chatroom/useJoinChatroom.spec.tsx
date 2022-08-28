@@ -4,8 +4,6 @@ import { ApiContext } from '../api/ApiContext';
 import { useJoinChatroom } from './useJoinChatroom';
 import { renderHook } from '@testing-library/react-hooks';
 
-const mockJoinRoom = jest.fn();
-
 describe('useJoinChatroom', () => {
     const roomId = 'roomId';
     const userId = 'userId';
@@ -38,17 +36,25 @@ describe('useJoinChatroom', () => {
         </ApiContext.Provider>
     );
 
+    const mockJoinRoom = jest.fn();
+
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    xit('joins a chatroom on mount', async () => {
+    it('joins a chatroom on mount', async () => {
         mockJoinRoom.mockImplementation(() => Promise.resolve());
-        const { result, waitFor } = renderHook(() => useJoinChatroom(roomId), {
-            wrapper,
-        });
+        const { result, waitForNextUpdate } = renderHook(
+            () => useJoinChatroom(roomId),
+            {
+                wrapper,
+            },
+        );
 
-        await waitFor(result.current.joined);
+        expect(result.current.joined).toBe(false);
+
+        await waitForNextUpdate();
+
         expect(result.current.joined).toBe(true);
         expect(mockJoinRoom).toHaveBeenCalledTimes(1);
     });
