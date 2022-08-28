@@ -6,6 +6,7 @@ using GrainInterfaces;
 using Grains.Common.Exceptions;
 using Grains.Test.Fixtures;
 using Grains.Test.Helpers;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using NUnit.Framework;
 using Orleans.TestingHost;
 
@@ -21,17 +22,6 @@ public class UserGrainTests
         _cluster = new ClusterFixture().Cluster;
     }
 
-    [Test]
-    public async Task ItCanBeCreated()
-    {
-        var roomId = Guid.NewGuid();
-        var roomName = "foo";
-        var grain = await RoomGrainTestHelpers.CreateRoomGrain(_cluster, roomId, roomName);
-        var room = await grain.OnGetRoom();
-
-        room.Id.Should().Be(roomId);
-        room.Name.Should().Be(roomName);
-    }
 
     [Test]
     public async Task ItCanGetAUser()

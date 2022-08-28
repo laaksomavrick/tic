@@ -17,7 +17,7 @@ export const RoomListItem: React.FC<RoomListItemProps> = ({
 
     const onClickRoomListButton = async () => {
         onClickRoom(id);
-    }
+    };
 
     return (
         <RoomListButton

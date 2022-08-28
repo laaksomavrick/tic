@@ -39,7 +39,6 @@ export const ConnectionProvider: React.FC = ({ children }) => {
                 await connection.start();
 
                 setConnection(connection);
-                console.log({ connection })
             } catch (e) {
                 console.error(e);
                 setError(true);

@@ -39,7 +39,7 @@ public class UserGrain : Grain, IUser
         {
             return;
         }
-        
+
         _user.State.JoinedRoomIds.Add(roomId);
         await _user.WriteStateAsync();
     }

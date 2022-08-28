@@ -5,10 +5,11 @@ import { useErrorToast } from './useErrorToast';
 import { useConnection } from '../ConnectionContext';
 
 export const LoadingMask: React.FC = ({ children }) => {
-    const { loading: connectionLoading, error: connectionError } = useConnection();
+    const { loading: connectionLoading, error: connectionError } =
+        useConnection();
     const { loading: userLoading, error: userError } = useUser();
 
-    const error = userError || connectionError ;
+    const error = userError || connectionError;
     const loading = userLoading || connectionLoading;
 
     useErrorToast(error);

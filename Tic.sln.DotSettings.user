@@ -6,6 +6,7 @@
       &lt;TestId&gt;NUnit3x::9A8CFE0D-D254-421B-95BE-FCFEB6E260A0::net6.0::WebApi.Test.Hubs.Unit.RoomsHubTest.Test1&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;NUnit3x::9A8CFE0D-D254-421B-95BE-FCFEB6E260A0::net6.0::WebApi.Test.Hubs.Unit.RoomsHubTest.ItCreatesAUserOnConnected&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;NUnit3x::9A8CFE0D-D254-421B-95BE-FCFEB6E260A0::net6.0::WebApi.Test.Hubs.Unit.RoomsHubTest.ItCreatesAUserOnConnectedAndAddsUserIdToContext&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::976FDE25-C9F9-4271-BDFE-75CEF2BF1A1F::net6.0::Grains.Test.RoomGrainTests.AUserCanJoinARoomTheyAreIn&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

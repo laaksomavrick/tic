@@ -2,7 +2,8 @@ import { createContext, useContext } from 'react';
 import {
     useMessageCreate,
     useRoomCreate,
-    useRoomGetAll, useRoomJoinRoom,
+    useRoomGetAll,
+    useRoomJoinRoom,
     useUserCreate,
     useUserGetOne,
 } from './hooks';
@@ -22,7 +23,7 @@ export const ApiContext = createContext<ApiState>({
     useRoomCreate,
     useRoomGetAll,
     useMessageCreate,
-    useRoomJoinRoom
+    useRoomJoinRoom,
 });
 
 export const useApi = () => useContext(ApiContext);

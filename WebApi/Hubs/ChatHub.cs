@@ -17,7 +17,7 @@ public class ChatHub : Hub
         // TODO: need to relate a connection to a userId for online/offline status
         await base.OnConnectedAsync();
     }
-    
+
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         // TODO: need to set user offline

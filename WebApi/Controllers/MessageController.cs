@@ -10,16 +10,16 @@ namespace WebApi.Controllers;
 
 public class MessageController : ApiController
 {
-    
+
     private readonly IClusterClient _client;
     private readonly IHubContext<ChatHub> _chatHubContext;
-    
+
     public MessageController(IClusterClient client, IHubContext<ChatHub> chatHubContext)
     {
         _client = client;
         _chatHubContext = chatHubContext;
     }
-    
+
     [HttpPost]
     public async Task<CreateMessageVm> Create(CreateMessageDto createMessageDto)
     {
@@ -40,7 +40,7 @@ public class MessageController : ApiController
             Message = message.Content,
             Timestamp = message.Timestamp
         };
-        
+
         // TODO: does this need to be a method defined in the hub?
         await _chatHubContext.Clients.Group(roomId.ToString()).SendAsync("ReceiveMessage", createMessageVm);
 

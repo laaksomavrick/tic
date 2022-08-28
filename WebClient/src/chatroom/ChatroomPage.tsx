@@ -18,8 +18,7 @@ export const ChatroomPage: React.FC = () => {
     const navigate = useNavigate();
 
     // TODO: handle error, loading
-    const { mutate: createMessage, loading: createMessageLoading, error: createMessageError } = useMessageCreate({});
-
+    const { mutate: createMessage } = useMessageCreate({});
 
     // TODO: handle dupes + extract into hook
     // console.log('rerender')
@@ -28,7 +27,7 @@ export const ChatroomPage: React.FC = () => {
     // });
 
     // TODO: errorJoining
-    const { joined, error: errorJoining } = useJoinChatroom(roomId || '');
+    const { joined } = useJoinChatroom(roomId || '');
 
     const onClickMessageCreate = async (message: string): Promise<void> => {
         const userId = user?.id;
@@ -59,26 +58,23 @@ export const ChatroomPage: React.FC = () => {
         return <Navigate replace to="/" />;
     }
 
-    return (
+    return !joined ? (
+        <Flex justifyContent="center" alignItems="center" w="100%" h="100%">
+            <TicSpinner />
+        </Flex>
+    ) : (
         <Grid
             h="100%"
             w="100%"
             gridTemplateRows={['min-content 1fr min-content']}
+            data-testid="ChatroomContainer"
         >
-            {(!joined) ? (
-                <Flex justifyContent="center" alignItems="center" w="100%" h="100%">
-                    <TicSpinner />
-                </Flex>
-            ) : (
-                <>
-                <ChatroomHeader
-                    name={room.name}
-                    onClickBackButton={onClickBackButton}
-                />
-                <ChatroomMessages />
-                <ChatroomActions onClickMessageCreate={onClickMessageCreate} />
-                </>
-            )}
+            <ChatroomHeader
+                name={room.name}
+                onClickBackButton={onClickBackButton}
+            />
+            <ChatroomMessages />
+            <ChatroomActions onClickMessageCreate={onClickMessageCreate} />
         </Grid>
     );
 };

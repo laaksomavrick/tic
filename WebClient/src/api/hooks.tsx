@@ -55,6 +55,7 @@ export interface GetUserVm {
 
 export interface JoinRoomDto {
     connectionId?: string | null;
+    userId?: string;
 }
 
 export type MessageCreateProps = Omit<
