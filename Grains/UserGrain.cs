@@ -30,4 +30,17 @@ public class UserGrain : Grain, IUser
         _user.State = user;
         await _user.WriteStateAsync();
     }
+
+    public async Task OnJoinRoom(Guid roomId)
+    {
+        var alreadyJoined = _user.State.JoinedRoomIds.Contains(roomId);
+
+        if (alreadyJoined)
+        {
+            return;
+        }
+        
+        _user.State.JoinedRoomIds.Add(roomId);
+        await _user.WriteStateAsync();
+    }
 }

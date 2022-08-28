@@ -69,6 +69,7 @@ public class RoomGrain : Grain, IRoom
 
         _room.State.Users.Add(user);
 
+        await userGrain.OnJoinRoom(_room.State.Id);
         await _room.WriteStateAsync();
 
         return true;

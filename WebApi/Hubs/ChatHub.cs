@@ -14,16 +14,13 @@ public class ChatHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        Console.WriteLine("OnConnectedAsync");
-        // var userManager = _client.GetUserManagerSingleton();
-        // var user = await userManager.OnCreateUser(null);
-        // Context.Items.Add("userId", user.Id);
+        // TODO: need to relate a connection to a userId for online/offline status
         await base.OnConnectedAsync();
     }
     
-    // OnJoinRoom -> for all members in the room, get the relevant orleans stream and push
-    
-    // OnSendMessage -> for all members in the room, get the relevant orleans stream and push
-    
-    // OnReceiveMessage -> for all members in the room, read from the relevant orelans stream
+    public override async Task OnDisconnectedAsync(Exception? exception)
+    {
+        // TODO: need to set user offline
+        await base.OnDisconnectedAsync(exception);
+    }
 }
