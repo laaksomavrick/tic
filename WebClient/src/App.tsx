@@ -12,12 +12,6 @@ import { RoomProvider } from './RoomContext';
 import { UserProvider } from './user/UserContext';
 
 function App() {
-    // const { connection, loading, error } = useConnection();
-    //
-    // connection?.on('message', (content: any) => {
-    //     console.log(content);
-    // });
-
     return (
         <UserInterfaceShell>
             <UserProvider>

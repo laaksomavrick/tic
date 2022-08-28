@@ -104,6 +104,28 @@ public class RoomGrainTests
     }
 
     [Test]
+    public async Task AUserCanJoinARoomTheyAreIn()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Username = "bar"
+        };
+
+        var roomId = Guid.NewGuid();
+        var roomName = "foo";
+
+        await UserGrainTestHelpers.CreateUserGrain(_cluster, user);
+        var grain = await RoomGrainTestHelpers.CreateRoomGrain(_cluster, roomId, roomName);
+
+        await grain.OnUserJoin(user.Id);
+        await grain.OnUserJoin(user.Id);
+        var room = await grain.OnGetRoom();
+
+        room.Users.Count.Should().Be(1);
+    }
+
+    [Test]
     public async Task AUserThatDoesNotExistCannotJoinRoom()
     {
         var user = new User

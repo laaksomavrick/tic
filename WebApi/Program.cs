@@ -53,7 +53,7 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<RoomsHub>("/hub");
+    endpoints.MapHub<ChatHub>("/chathub");
     endpoints.MapControllers();
 });
 

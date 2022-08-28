@@ -1,7 +1,7 @@
-import { Flex, Grid } from '@chakra-ui/react';
+import { BoxProps, Flex, Grid } from '@chakra-ui/react';
 import { TicText } from '../common/TicText';
 
-export interface ChatroomMessagesProps {}
+export interface ChatroomMessagesProps extends BoxProps {}
 
 let messages = [
     {

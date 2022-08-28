@@ -67,8 +67,16 @@ public class RoomGrain : Grain, IRoom
 
         if (user == null) throw new NotFoundException(nameof(User), userId);
 
+        var alreadyJoined = _room.State.Users.Select(x => x.Id).Contains(userId);
+
+        if (alreadyJoined)
+        {
+            return true;
+        }
+
         _room.State.Users.Add(user);
 
+        await userGrain.OnJoinRoom(_room.State.Id);
         await _room.WriteStateAsync();
 
         return true;

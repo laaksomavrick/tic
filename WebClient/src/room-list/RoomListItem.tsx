@@ -14,10 +14,15 @@ export const RoomListItem: React.FC<RoomListItemProps> = ({
     ...rest
 }) => {
     const id = room.id || '';
+
+    const onClickRoomListButton = async () => {
+        onClickRoom(id);
+    };
+
     return (
         <RoomListButton
             data-testid={`RoomListItem-${id}`}
-            onClick={() => onClickRoom(id)}
+            onClick={onClickRoomListButton}
             {...rest}
         >
             <TicText fontSize={['xl']} fontWeight={'semibold'}>

@@ -12,14 +12,14 @@ namespace WebApi.Controllers;
 public class RoomController : ApiController
 {
     private readonly IClusterClient _client;
-    private readonly IHubContext<RoomsHub> _roomsHubContext;
+    private readonly IHubContext<ChatHub> _chatHubContext;
     private readonly IRoomService _roomService;
 
 
-    public RoomController(IClusterClient client, IHubContext<RoomsHub> roomsHubContext, IRoomService roomService)
+    public RoomController(IClusterClient client, IHubContext<ChatHub> chatHubContext, IRoomService roomService)
     {
         _client = client;
-        _roomsHubContext = roomsHubContext;
+        _chatHubContext = chatHubContext;
         _roomService = roomService;
     }
 
@@ -92,11 +92,13 @@ public class RoomController : ApiController
     public async Task<ActionResult> JoinRoom(Guid roomId, JoinRoomDto joinRoomDto)
     {
         var connectionId = joinRoomDto.ConnectionId;
+        var userId = joinRoomDto.UserId;
 
         var grain = _client.GetRoomGrain(roomId);
-        var room = await grain.OnGetRoom();
+        await grain.OnGetRoom();
+        await grain.OnUserJoin(userId);
 
-        await _roomsHubContext.Groups.AddToGroupAsync(connectionId, roomId.ToString());
+        await _chatHubContext.Groups.AddToGroupAsync(connectionId, roomId.ToString());
         return NoContent();
     }
 }

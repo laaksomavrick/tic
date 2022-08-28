@@ -2,7 +2,9 @@ import { ToastId, useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { GetDataError } from 'restful-react';
 
-export const useErrorToast = (error: GetDataError<unknown> | null) => {
+export const useErrorToast = (
+    error: GetDataError<unknown> | null | boolean,
+) => {
     const [toastId, setToastId] = useState<ToastId | undefined>(undefined);
 
     const toast = useToast({
@@ -14,6 +16,10 @@ export const useErrorToast = (error: GetDataError<unknown> | null) => {
 
     useEffect(() => {
         if (error == null) {
+            return;
+        }
+
+        if (error === false) {
             return;
         }
 

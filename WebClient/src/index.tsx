@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-// import { ConnectionProvider } from './ConnectionProvider';
 import reportWebVitals from './reportWebVitals';
+import { ConnectionProvider } from './ConnectionContext';
 
 ReactDOM.render(
     <React.StrictMode>
-        {/*<ConnectionProvider>*/}
-        <App />
-        {/*</ConnectionProvider>*/}
+        <ConnectionProvider>
+            <App />
+        </ConnectionProvider>
     </React.StrictMode>,
     document.getElementById('root'),
 );
