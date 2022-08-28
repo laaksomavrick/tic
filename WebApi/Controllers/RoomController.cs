@@ -95,10 +95,15 @@ public class RoomController : ApiController
         var userId = joinRoomDto.UserId;
 
         var grain = _client.GetRoomGrain(roomId);
-        await grain.OnGetRoom();
+        var room = await grain.OnGetRoom();
         await grain.OnUserJoin(userId);
 
-        await _chatHubContext.Groups.AddToGroupAsync(connectionId, roomId.ToString());
+        var roomIdString = roomId.ToString();
+        var messages = room.Messages.OrderBy(x => x.Timestamp);
+
+        await _chatHubContext.Groups.AddToGroupAsync(connectionId, roomIdString);
+        await _chatHubContext.Clients.Group(roomIdString).SendAsync("ReceiveRoomMessages", messages);
+        
         return NoContent();
     }
 }

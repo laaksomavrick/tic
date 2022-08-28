@@ -9,11 +9,16 @@ export const useJoinChatroom = (roomId: string) => {
     const { connection } = useConnection();
     const { useRoomJoinRoom } = useApi();
     const { mutate: joinRoom, error } = useRoomJoinRoom({ roomId });
-    // TODO: read user joined room state from GET user
     const [joined, setJoined] = useState(false);
 
     const connectionId = connection?.connectionId;
     const userId = user?.id || '';
+
+    // TODO: handle dupes + extract into hook
+    // console.log('rerender')
+    connection?.on('ReceiveRoomMessages', (messages: any[]) => {
+        console.log('ReceiveRoomMessages', messages);
+    });
 
     useMountEffect(async () => {
         if (joined) {
@@ -22,6 +27,7 @@ export const useJoinChatroom = (roomId: string) => {
         await joinRoom({ connectionId, userId });
         setJoined(true);
     });
+
 
     return { joined, error };
 };

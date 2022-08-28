@@ -40,9 +40,11 @@ public class RoomGrain : Grain, IRoom
         var timestamp = DateTime.UtcNow;
         var roomId = _room.State.Id;
 
-        var userInRoom = _room.State.Users.Any(x => x.Id == userId);
+        var user = _room.State.Users.Find(x => x.Id == userId);
 
-        if (userInRoom == false) throw new UnauthorizedException($"User={id} is not in this room");
+        if (user == null) throw new UnauthorizedException($"User={userId} is not in this room");
+
+        var username = user.Username;
 
         var message = new Message
         {
@@ -50,7 +52,8 @@ public class RoomGrain : Grain, IRoom
             Content = content,
             Timestamp = timestamp,
             RoomId = roomId,
-            UserId = userId
+            UserId = userId,
+            Username = username
         };
 
         _room.State.Messages.Add(message);
