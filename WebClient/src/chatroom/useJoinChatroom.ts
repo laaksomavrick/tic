@@ -3,21 +3,27 @@ import { useState } from 'react';
 import { useUser } from '../user/UserContext';
 import { useConnection } from '../ConnectionContext';
 import { useApi } from '../api/ApiContext';
+import {
+    ChatroomMessageVm,
+    SET_LOADING,
+    SET_MESSAGES,
+    useChatroom,
+} from './ChatroomContext';
 
 export const useJoinChatroom = (roomId: string) => {
     const { user } = useUser();
     const { connection } = useConnection();
     const { useRoomJoinRoom } = useApi();
+    const [state, dispatch] = useChatroom();
     const { mutate: joinRoom, error } = useRoomJoinRoom({ roomId });
     const [joined, setJoined] = useState(false);
 
     const connectionId = connection?.connectionId;
     const userId = user?.id || '';
 
-    // TODO: handle dupes + extract into hook
-    // console.log('rerender')
-    connection?.on('ReceiveRoomMessages', (messages: any[]) => {
-        console.log('ReceiveRoomMessages', messages);
+    connection?.on('ReceiveRoomMessages', (messages: ChatroomMessageVm[]) => {
+        dispatch({ type: SET_MESSAGES, messages });
+        dispatch({ type: SET_LOADING, loading: false });
     });
 
     useMountEffect(async () => {
@@ -27,7 +33,6 @@ export const useJoinChatroom = (roomId: string) => {
         await joinRoom({ connectionId, userId });
         setJoined(true);
     });
-
 
     return { joined, error };
 };

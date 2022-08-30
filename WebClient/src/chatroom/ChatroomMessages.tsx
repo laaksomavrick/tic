@@ -1,31 +1,14 @@
 import { BoxProps, Flex, Grid } from '@chakra-ui/react';
 import { TicText } from '../common/TicText';
+import { ChatroomMessageVm } from './ChatroomContext';
 
-export interface ChatroomMessagesProps extends BoxProps {}
+export interface ChatroomMessagesProps extends BoxProps {
+    messages: ChatroomMessageVm[];
+}
 
-let messages = [
-    {
-        id: '1',
-        username: 'AlpacaDog667',
-        color: 'red.400',
-        message: 'hi',
-    },
-    {
-        id: '2',
-        username: 'EpicMemer1337',
-        color: 'blue.400',
-        message: 'lorem ipsum something',
-    },
-    {
-        id: '3',
-        username: 'shadowdog',
-        color: 'black.400',
-        message:
-            'the quick brown fox one two three four five six seven this is a long message the quick brown fox one two three four five six seven this is a long message',
-    },
-];
-
-export const ChatroomMessages: React.FC<ChatroomMessagesProps> = () => {
+export const ChatroomMessages: React.FC<ChatroomMessagesProps> = ({
+    messages,
+}) => {
     return (
         <Grid
             data-testid="ChatroomMessages"
@@ -52,15 +35,15 @@ export const ChatroomMessages: React.FC<ChatroomMessagesProps> = () => {
                     <TicText
                         fontSize="sm"
                         fontWeight="semibold"
-                        color={message.color}
+                        color={message.color || 'black.400'}
                     >
-                        {message.username}
+                        {message.username || 'Unknown'}
                     </TicText>
                     <TicText fontSize="sm" fontWeight="normal">
                         :&nbsp;
                     </TicText>
                     <TicText fontSize="sm" fontWeight="normal">
-                        {message.message}
+                        {message.content}
                     </TicText>
                 </Flex>
             ))}

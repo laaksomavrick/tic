@@ -10,6 +10,7 @@ import { UserInterfaceShell } from './common/UserInterfaceShell';
 import { RoomListPage } from './room-list/RoomListPage';
 import { RoomProvider } from './RoomContext';
 import { UserProvider } from './user/UserContext';
+import { ChatroomProvider } from './chatroom/ChatroomContext';
 
 function App() {
     return (
@@ -22,7 +23,11 @@ function App() {
                                 <Route path="/" element={<RoomListPage />} />
                                 <Route
                                     path="/rooms/:roomId"
-                                    element={<ChatroomPage />}
+                                    element={
+                                        <ChatroomProvider>
+                                            <ChatroomPage />
+                                        </ChatroomProvider>
+                                    }
                                 />
                                 <Route
                                     path="*"

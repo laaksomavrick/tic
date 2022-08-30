@@ -1,69 +1,92 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
-import { GetDataError } from 'restful-react';
-import { useApi } from './api/ApiContext';
-import { GetRoomVm } from './api/hooks';
+import { createContext, useContext, useReducer } from 'react';
+import { useParams } from 'react-router-dom';
+import { useRooms } from '../RoomContext';
+import { useConnection } from '../ConnectionContext';
 
 export interface ChatroomMessageVm {
     content: string;
     id: string;
     roomId: string;
     timestamp: string;
-    userId: string; 
-    username: string; 
+    userId: string;
+    username: string;
+    color: string;
 }
 
 export interface ChatroomState {
-    id: string;
+    roomId: string;
     room: any;
-    messages: ChatroomMessageVm[]
+    messages: ChatroomMessageVm[];
+    loading: boolean;
 }
 
 export const SET_MESSAGES = 'SET_MESSAGES';
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const SET_LOADING = 'SET_LOADING';
 
 type SetMessagesAction = {
     type: typeof SET_MESSAGES;
     messages: ChatroomMessageVm[];
 };
 
-export type ChatroomAction = SetMessagesAction
+type AddMessageAction = {
+    type: typeof ADD_MESSAGE;
+    message: ChatroomMessageVm;
+};
 
-const reducer = (state: RoomState, action: RoomAction): RoomState => {
+type SetLoadingAction = {
+    type: typeof SET_LOADING;
+    loading: boolean;
+};
+
+export type ChatroomAction =
+    | SetMessagesAction
+    | AddMessageAction
+    | SetLoadingAction;
+
+const reducer = (
+    state: ChatroomState,
+    action: ChatroomAction,
+): ChatroomState => {
+    // TODO: filter dupes from e.g. rerenders
     switch (action.type) {
-        case SET_ROOMS: {
-            return { ...state, rooms: action.rooms };
+        case SET_MESSAGES: {
+            return { ...state, messages: action.messages };
+        }
+        case ADD_MESSAGE: {
+            return { ...state, messages: [...state.messages, action.message] };
         }
         case SET_LOADING: {
             return { ...state, loading: action.loading };
-        }
-        case SET_ERROR: {
-            return { ...state, error: action.error };
-        }
-        case CREATE_ROOM: {
-            return { ...state, rooms: [...state.rooms, action.room] };
         }
         default:
             return state;
     }
 };
 
-const initialRoomState = {
-    rooms: [],
-    loading: false,
-    error: null,
-};
+export const ChatroomContext = createContext<
+    [ChatroomState, React.Dispatch<ChatroomAction>]
+>([{} as ChatroomState, () => {}]);
 
-export const RoomContext = createContext<
-    [RoomState, React.Dispatch<RoomAction>]
-    >([initialRoomState, () => {}]);
+export const useChatroom = () => useContext(ChatroomContext);
 
-export const useRooms = () => useContext(RoomContext);
+export const ChatroomProvider: React.FC = ({ children }) => {
+    const { roomId } = useParams();
+    const [{ rooms }] = useRooms();
 
-export const RoomProvider: React.FC = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, initialRoomState);
+    const room = rooms.find((room) => room.id === roomId);
+    const initialState = {
+        roomId,
+        room,
+        messages: [],
+        loading: true,
+    } as ChatroomState;
+
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     return (
-        <RoomContext.Provider value={[state, dispatch]}>
+        <ChatroomContext.Provider value={[state, dispatch]}>
             {children}
-        </RoomContext.Provider>
+        </ChatroomContext.Provider>
     );
 };

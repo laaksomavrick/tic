@@ -9,22 +9,21 @@ import { useApi } from '../api/ApiContext';
 import { useUser } from '../user/UserContext';
 import { TicSpinner } from '../common/TicSpinner';
 import { useJoinChatroom } from './useJoinChatroom';
+import { useChatroom } from './ChatroomContext';
 
 export const ChatroomPage: React.FC = () => {
     const { useMessageCreate } = useApi();
-    const { roomId } = useParams();
+    const [state] = useChatroom();
     const { user } = useUser();
-    const [roomState] = useRooms();
     const navigate = useNavigate();
+
+    const roomId = state.roomId;
+    const room = state.room;
+    const loading = state.loading;
+    const messages = state.messages;
 
     // TODO: handle error, loading
     const { mutate: createMessage } = useMessageCreate({});
-
-    // TODO: handle dupes + extract into hook
-    // console.log('rerender')
-    // connection?.on('ReceiveMessage', (content: any) => {
-    //     console.log('receivemessage', content);
-    // });
 
     // TODO: errorJoining
     const { joined } = useJoinChatroom(roomId || '');
@@ -46,19 +45,15 @@ export const ChatroomPage: React.FC = () => {
         navigate('/');
     }, [navigate]);
 
-    if (roomId == null) {
+    if (roomId == null || room == null) {
         return <Navigate replace to="/" />;
     }
 
-    // TODO: not great if many rooms - can we pass via navigate as metadata?
-    const rooms = roomState.rooms;
-    const room = rooms.find((room) => room.id === roomId);
+    const showSpinner = !joined || loading;
 
-    if (room == null) {
-        return <Navigate replace to="/" />;
-    }
+    console.log({ joined, loading, showSpinner });
 
-    return !joined ? (
+    return showSpinner ? (
         <Flex justifyContent="center" alignItems="center" w="100%" h="100%">
             <TicSpinner />
         </Flex>
@@ -73,7 +68,7 @@ export const ChatroomPage: React.FC = () => {
                 name={room.name}
                 onClickBackButton={onClickBackButton}
             />
-            <ChatroomMessages />
+            <ChatroomMessages messages={messages} />
             <ChatroomActions onClickMessageCreate={onClickMessageCreate} />
         </Grid>
     );
